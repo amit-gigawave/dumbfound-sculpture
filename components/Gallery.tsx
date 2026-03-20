@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion } from "framer-motion";
@@ -8,7 +9,7 @@ import { useGLTF, Stage, Float, PerspectiveCamera } from "@react-three/drei";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function ModelPreview({ path, color }: { path: string, color: string }) {
+function ModelPreview({ path }: { path: string }) {
   const { scene } = useGLTF(path);
   
   return (
@@ -34,6 +35,11 @@ function ModelPreview({ path, color }: { path: string, color: string }) {
     </div>
   );
 }
+
+const ClientModelPreview = dynamic(
+  () => Promise.resolve(ModelPreview),
+  { ssr: false },
+);
 
 type Sculpture = {
   title: string;
@@ -172,7 +178,7 @@ export default function Gallery() {
         </h2>
 
         <div ref={ref} className="max-w-5xl mx-auto w-full h-160 relative">
-          {sculptures.map((sculpture, i) => (
+          {sculptures.map((sculpture) => (
             <motion.div key={sculpture.title}>
               <motion.button className={"w-80 p-4  absolute inset-0 rounded-4xl cursor-pointer group border border-white/10 backdrop-blur-xl bg-white/5 shadow-2xl overflow-hidden"}
                 initial={{
@@ -214,7 +220,7 @@ export default function Gallery() {
                 /> */}
 
                 <div className="relative z-10 ">
-                  <ModelPreview path={sculpture.modelPath} color={sculpture.accent} />
+                  <ClientModelPreview path={sculpture.modelPath} />
                   <div className="text-left mt-6">
                     <h3 className="text-3xl font-serif text-white mb-2">
                       {sculpture.title}
