@@ -1,17 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
 
-// Dynamically import the Scene with SSR disabled.
-// This is CRITICAL for SEO as it prevents Three.js from being part of the initial HTML payload,
-// keeping the page lightweight for crawlers while loading the heavy 3D assets only on the client.
 const Scene = dynamic(() => import("./Scene"), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center w-full h-full bg-slate-900 animate-pulse">
-      <div className="text-white text-xl font-light tracking-widest uppercase">
-        Loading Experience...
+    <div className="absolute inset-0 flex items-end justify-start bg-slate-950 px-6 pb-6 sm:px-10 sm:pb-10">
+      <div className="rounded-full border border-white/10 bg-black/40 px-5 py-3 text-[10px] uppercase tracking-[0.4em] text-white/60 backdrop-blur-md">
+        Loading Sculpture
       </div>
     </div>
   ),
@@ -19,10 +15,10 @@ const Scene = dynamic(() => import("./Scene"), {
 
 export default function SceneWrapper() {
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-slate-950">
-      <Suspense fallback={null}>
-        <Scene />
-      </Suspense>
+    <div className="relative w-full h-screen overflow-hidden ">
+      <Scene />
+      <div className="pointer-events-none absolute inset-0 bg-black/18" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_22%,rgba(99,102,241,0.16),transparent_24%),radial-gradient(circle_at_82%_68%,rgba(34,211,238,0.1),transparent_24%),linear-gradient(180deg,rgba(2,6,23,0.08)_0%,rgba(2,6,23,0.18)_100%)]" />
     </div>
   );
 }

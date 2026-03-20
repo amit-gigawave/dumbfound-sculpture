@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dumbfound Sculpture Showcase
+
+A premium interactive sculpture showcase website built with Next.js 16, React Three Fiber, and GSAP animations.
+
+## Features
+
+- **Smooth Scroll Experience**: Lenis smooth scrolling for buttery-smooth navigation
+- **3D Interactive Sculpture**: Three.js powered 3D model with scroll-linked animations
+- **Cinematic Animations**: GSAP ScrollTrigger animations throughout
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Performance Optimized**: Dynamic imports, lazy loading, and SSR disabled for 3D content
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (React 19)
+- **3D Graphics**: Three.js, React Three Fiber, Drei
+- **Animations**: GSAP, ScrollTrigger
+- **Smooth Scroll**: Lenis
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install --legacy-peer-deps
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/
+│   ├── layout.tsx          # Root layout with Navbar
+│   ├── page.tsx            # Main page with Lenis integration
+│   └── globals.css         # Global styles
+├── components/
+│   ├── Navbar.tsx          # Sticky navigation with glassmorphism
+│   ├── Hero.tsx            # Hero section with GSAP text animations
+│   ├── About.tsx           # About section with stats
+│   ├── Gallery.tsx         # Gallery grid with hover effects
+│   ├── Contact.tsx         # Contact form and info
+│   ├── Scene.tsx           # Three.js 3D scene with scroll animations
+│   └── SceneWrapper.tsx    # Dynamic import wrapper for Scene
+└── public/
+    └── sculpture.glb       # 3D sculpture model
+```
 
-## Learn More
+## 3D Model
 
-To learn more about Next.js, take a look at the following resources:
+Place your sculpture model as `sculpture.glb` in the `public/` folder. The model should be:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Format: GLB (optimized)
+- Size: Under 10MB
+- Optimized polygon count
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Sections
 
-## Deploy on Vercel
+1. **Hero**: Eye-catching intro with 3D sculpture
+2. **About**: Company story and achievements
+3. **Gallery**: Sculpture showcase grid
+4. **Contact**: Contact form and information
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Customization
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Update sculpture model in `/public/sculpture.glb`
+- Modify colors in `globals.css` and component files
+- Adjust animations in Scene.tsx ScrollTrigger configurations
+- Update content in each component
+
+## Performance Notes
+
+- 3D Scene uses dynamic import with SSR disabled
+- Lenis provides hardware-accelerated smooth scrolling
+- GSAP ScrollTrigger syncs 3D animations with scroll position
+
+## License
+
+All Rights Reserved © 2026 Dumbfound Tech

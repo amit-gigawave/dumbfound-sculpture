@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.agents
+.agent
+.gemini
+.kiro
+.qoder
+.trae
+.vscode
+.windsurf

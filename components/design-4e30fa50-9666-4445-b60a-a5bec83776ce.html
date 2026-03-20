@@ -1,0 +1,382 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Murmur Kinetic Component</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet" vid="7">
+    <style vid="8">
+        :root {
+            --bg-color: #F7F6F4;
+            --ink-primary: #1C1C1A;
+            --ink-secondary: #8A8A85;
+            --ink-tertiary: #D4D4D0;
+            
+            --font-sans: 'Inter', sans-serif;
+            
+            --space-4: 4px;
+            --space-8: 8px;
+            --space-16: 16px;
+            --space-24: 24px;
+            --space-48: 48px;
+            --space-96: 96px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--ink-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: var(--space-24);
+        }
+
+        
+        .murmur-player {
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-48);
+        }
+
+        
+        .meta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ink-secondary);
+            border-bottom: 1px solid var(--ink-tertiary);
+            padding-bottom: var(--space-16);
+        }
+
+        .meta-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .meta-label {
+            color: var(--ink-tertiary);
+            font-size: 9px;
+            letter-spacing: 0.15em;
+        }
+
+        .meta-value {
+            color: var(--ink-primary);
+        }
+
+        .meta-right {
+            text-align: right;
+        }
+
+        
+        .visual-stage {
+            width: 100%;
+            height: 240px; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        
+        .murmur-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .bar {
+            fill: var(--ink-primary);
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        
+        .is-playing .bar {
+            animation: murmurWave var(--anim-duration, 2s) cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+            animation-delay: var(--anim-delay, 0s);
+        }
+
+        .is-paused .bar {
+            transform: scaleY(0.1); 
+        }
+
+        @keyframes murmurWave {
+            0% { transform: scaleY(var(--scale-min, 0.2)); }
+            100% { transform: scaleY(var(--scale-max, 1)); }
+        }
+
+        
+        .control-footer {
+            display: flex;
+            align-items: center;
+            gap: var(--space-24);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--ink-primary);
+        }
+
+        .play-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            color: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            transition: color 0.2s ease;
+        }
+
+        .play-toggle:hover {
+            color: var(--ink-secondary);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--ink-secondary);
+            transition: background-color 0.3s ease;
+        }
+
+        .murmur-player.is-playing .status-dot {
+            background-color: #E24A3F; 
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .timeline {
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--ink-tertiary);
+            position: relative;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: var(--ink-primary);
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.05em;
+        }
+
+        
+        button:focus-visible {
+            outline: 2px solid var(--ink-secondary);
+            outline-offset: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .visual-stage { height: 160px; }
+            .meta-header { flex-direction: column; gap: var(--space-16); border-bottom: none; }
+            .meta-right { text-align: left; }
+        }
+    </style>
+</head>
+<body vid="9">
+
+    <main class="murmur-player is-playing" id="player" vid="10">
+        
+        <header class="meta-header" vid="11">
+            <div class="meta-group" vid="12">
+                <span class="meta-label" vid="13">SYSTEM</span>
+                <span class="meta-value" vid="14">KINETIC AUDIO V.01</span>
+            </div>
+            <div class="meta-group meta-right" vid="15">
+                <span class="meta-label" vid="16">FREQUENCY</span>
+                <span class="meta-value" vid="17">LOW PASS / 40HZ</span>
+            </div>
+        </header>
+
+        <div class="visual-stage" id="stage" role="button" tabindex="0" aria-label="Toggle playback" vid="18">
+            
+        </div>
+
+        <footer class="control-footer" vid="19">
+            <button class="play-toggle" id="playBtn" vid="20">
+                <span class="status-dot" vid="21"></span>
+                <span id="playText" vid="22">PLAYING</span>
+            </button>
+            <div class="timeline" vid="23">
+                <div class="timeline-progress" id="progress" vid="24"></div>
+            </div>
+            <span class="time-display" id="time" vid="25">00:00</span>
+        </footer>
+
+    </main>
+
+    <script vid="26">
+        document.addEventListener('DOMContentLoaded', () => {
+            const stage = document.getElementById('stage');
+            const player = document.getElementById('player');
+            const playBtn = document.getElementById('playBtn');
+            const playText = document.getElementById('playText');
+            const progress = document.getElementById('progress');
+            const timeDisplay = document.getElementById('time');
+            
+            let isPlaying = true;
+            let timeElapsed = 0;
+            let timerInterval;
+
+            
+            function createKineticTypography() {
+                const numBars = 120; 
+                const viewBoxWidth = 1000;
+                const viewBoxHeight = 300;
+                const barWidth = viewBoxWidth / numBars;
+                const gap = 1.5; 
+                
+                let rectsHTML = '';
+
+                for (let i = 0; i < numBars; i++) {
+                    const x = i * barWidth;
+                    
+                    
+                    
+                    const normalizedX = i / numBars;
+                    const slowWave = Math.sin(normalizedX * Math.PI * 2); 
+                    const fastWave = Math.sin(normalizedX * Math.PI * 6) * 0.5;
+                    const combinedWave = (slowWave + fastWave) / 1.5;
+
+                    
+                    const delay = normalizedX * -2.5; 
+                    const duration = 1.8 + Math.random() * 0.4; 
+                    
+                    
+                    
+                    const baseScaleMin = 0.1 + Math.abs(fastWave) * 0.2;
+                    const baseScaleMax = 0.4 + Math.abs(combinedWave) * 0.6;
+
+                    rectsHTML += `
+                        <rect class="bar" 
+                              x="${x}" 
+                              y="0" 
+                              width="${barWidth - gap}" 
+                              height="100%" 
+                              style="
+                                --anim-delay: ${delay}s; 
+                                --anim-duration: ${duration}s;
+                                --scale-min: ${baseScaleMin};
+                                --scale-max: ${baseScaleMax};
+                              "
+                        />
+                    `;
+                }
+
+                const svgContent = `
+                    <svg class="murmur-svg" viewBox="0 0 ${viewBoxWidth} ${viewBoxHeight}" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <clipPath id="murmurMask">
+                                <text x="50%" y="65%" 
+                                      text-anchor="middle" 
+                                      font-family="Inter, sans-serif" 
+                                      font-weight="700" 
+                                      font-size="240px" 
+                                      letter-spacing="-0.04em">murmur</text>
+                            </clipPath>
+                        </defs>
+                        <!-- Group masked by the typography -->
+                        <g clip-path="url(#murmurMask)">
+                            ${rectsHTML}
+                        </g>
+                        <!-- Optional: Very faint background outline of text for legibility when paused 
+                        <text x="50%" y="65%" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="240px" letter-spacing="-0.04em" fill="none" stroke="var(--ink-tertiary)" stroke-width="1" opacity="0.3">murmur</text>
+                        -->
+                    </svg>
+                `;
+
+                stage.innerHTML = svgContent;
+            }
+
+            
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            function updateTimeline() {
+                if (!isPlaying) return;
+                timeElapsed += 0.1; 
+                timeDisplay.textContent = formatTime(timeElapsed);
+                
+                
+                const progressPercent = (timeElapsed % 60) / 60 * 100;
+                progress.style.width = `${progressPercent}%`;
+            }
+
+            function togglePlayback() {
+                isPlaying = !isPlaying;
+                
+                if (isPlaying) {
+                    player.classList.remove('is-paused');
+                    player.classList.add('is-playing');
+                    playText.textContent = "PLAYING";
+                    timerInterval = setInterval(updateTimeline, 100);
+                } else {
+                    player.classList.remove('is-playing');
+                    player.classList.add('is-paused');
+                    playText.textContent = "PAUSED";
+                    clearInterval(timerInterval);
+                }
+            }
+
+            
+            createKineticTypography();
+            
+            
+            playBtn.addEventListener('click', togglePlayback);
+            stage.addEventListener('click', togglePlayback);
+            
+            
+            stage.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    togglePlayback();
+                }
+            });
+
+            
+            timerInterval = setInterval(updateTimeline, 100);
+        });
+    </script>
+
+</body></html>

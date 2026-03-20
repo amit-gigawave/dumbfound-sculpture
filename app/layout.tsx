@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Dimensional Sculptures | Next-Gen 3D Web",
-  description: "Explore the intersection of high-performance 3D graphics and modern web optimization. Built with React Three Fiber and Next.js.",
+  description:
+    "Explore the intersection of high-performance 3D graphics and modern web optimization. Built with React Three Fiber and Next.js.",
 };
 
 export default function RootLayout({
@@ -19,9 +26,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+        <Navbar />
         {children}
       </body>
     </html>

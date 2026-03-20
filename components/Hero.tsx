@@ -1,0 +1,198 @@
+"use client";
+
+import { CSSProperties, useEffect, useId, useMemo, useRef } from "react";
+import gsap from "gsap";
+
+function KineticWordLine({ word }: { word: string }) {
+  const clipPathId = useId().replace(/:/g, "");
+
+  const bars = useMemo(() => {
+    const numBars = 250;
+    const viewBoxWidth = 2000;
+    const barWidth = viewBoxWidth / numBars;
+    const gap = 0.5;
+
+    return Array.from({ length: numBars }, (_, index) => {
+      const normalizedX = index / numBars;
+      const slowWave = Math.sin(normalizedX * Math.PI * 2);
+      const fastWave = Math.sin(normalizedX * Math.PI * 6) * 0.5;
+      const combinedWave = (slowWave + fastWave) / 1.5;
+      const delay = normalizedX * -2.5;
+      const duration = 1.2 + (index % 5) * 0.08;
+      const scaleMin = 0.2 + Math.abs(fastWave) * 0.8;
+      const scaleMax = 0.9 + Math.abs(combinedWave) * 0.8;
+
+      return {
+        x: (index - 14) * barWidth,
+        width: barWidth - gap,
+        delay,
+        duration,
+        scaleMin,
+        scaleMax,
+      };
+    });
+  }, []);
+
+  const fontSize = word.length > 9 ? 200 : 240;
+
+  return (
+    <div className="hero-word-line">
+      <svg
+        className="hero-kinetic-svg"
+        viewBox="0 0 1000 240"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <defs>
+          <clipPath id={clipPathId}>
+            <text
+              x="50%"
+              y="66%"
+              textAnchor="middle"
+              fontFamily="Inter, sans-serif"
+              fontWeight="700"
+              fontSize={fontSize}
+              letterSpacing="-0.04em"
+            >
+              {word}
+            </text>
+          </clipPath>
+        </defs>
+
+        <g clipPath={`url(#${clipPathId})`}>
+          {bars.map((bar) => (
+            <rect
+              key={`${word}-${bar.x}`}
+              className="hero-kinetic-bar"
+              x={bar.x}
+              y="0"
+              width={bar.width}
+              height="100%"
+              style={
+                {
+                  "--anim-delay": `${bar.delay}s`,
+                  "--anim-duration": `${bar.duration}s`,
+                  "--scale-min": bar.scaleMin,
+                  "--scale-max": bar.scaleMax,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </g>
+
+        <text
+          x="50%"
+          y="66%"
+          textAnchor="middle"
+          fontFamily="Inter, sans-serif"
+          fontWeight="700"
+          fontSize={fontSize}
+          letterSpacing="-0.04em"
+          fill="none"
+          stroke="rgba(255,255,255,0.2)"
+          strokeWidth="1"
+          opacity="0.35"
+        >
+          {word}
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+export default function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = heroRef.current;
+
+    if (!section) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+      });
+
+      tl.from(".hero-meta", {
+        y: 20,
+        opacity: 0,
+        duration: 0.7,
+      })
+        .from(
+          ".hero-word-line",
+          {
+            y: 46,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.12,
+            ease: "expo.out",
+          },
+          "-=0.3",
+        )
+        .from(
+          ".hero-subtext",
+          {
+            y: 24,
+            opacity: 0,
+            duration: 0.75,
+          },
+          "-=0.45",
+        )
+        .from(
+          ".hero-cta",
+          {
+            y: 22,
+            opacity: 0,
+            duration: 0.7,
+          },
+          "-=0.4",
+        );
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      id="home"
+      ref={heroRef}
+      className="relative z-10 pointer-events-none flex min-h-screen items-center px-6 py-24 lg:px-16"
+    >
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[1fr_1.2fr_0.8fr]">
+        <div className="hero-copy max-w-[32rem] border-t border-white/10 pt-6 pointer-events-none">
+          <p className="hero-meta mb-5 text-[10px] font-medium uppercase tracking-[0.14em] text-white/45">
+            Dumbfound Sculpture Studio
+          </p>
+
+          <div className="space-y-1">
+            <KineticWordLine word="CRAFTING" />
+            <KineticWordLine word="TIMELESS" />
+            <KineticWordLine word="SCULPTURES" />
+          </div>
+
+          <p className="hero-subtext mt-5 max-w-sm text-sm font-medium leading-7 tracking-[-0.01em] text-white/68 sm:text-base">
+            Where art meets form, and imagination becomes reality.
+          </p>
+        </div>
+
+        <div aria-hidden="true" className="hidden min-h-[24rem] lg:block" />
+
+        <div className="hero-cta flex justify-start lg:justify-end">
+          <a
+            href="#gallery"
+            className="group pointer-events-auto inline-flex items-center gap-4 rounded-full border border-white/12 bg-white/[0.06] px-6 py-3 backdrop-blur-md transition-all duration-300 hover:border-white/25 hover:bg-white/[0.12] hover:shadow-[0_0_30px_rgba(255,255,255,0.08)]"
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/12 bg-white/[0.08] transition-all duration-300 group-hover:scale-105 group-hover:border-white/25 group-hover:bg-white/15">
+              <span className="h-1.5 w-1.5 rounded-full bg-white/75 transition-colors duration-300 group-hover:bg-white" />
+            </span>
+            <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/85 transition-colors duration-300 group-hover:text-white">
+              Explore Our Work
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
