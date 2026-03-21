@@ -51,110 +51,154 @@ export default function Team() {
       return;
     }
 
+    const mm = gsap.matchMedia();
+
     const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray<HTMLElement>(".team-card");
-      const overlays = gsap.utils.toArray<HTMLElement>(".team-image-overlay");
+      const q = gsap.utils.selector(section);
 
-      gsap.set(".team-heading", { autoAlpha: 0, y: 48 });
-      gsap.set(cards, {
-        y: () => window.innerHeight * 0.9,
-        scale: 0.72,
-        autoAlpha: 0,
-        rotateX: 10,
-        filter: "blur(14px)",
-        transformOrigin: "50% 50%",
-        transformPerspective: 1400,
-        willChange: "transform, opacity, filter",
-      });
-      gsap.set(overlays, { scaleY: 1, transformOrigin: "top center" });
-
-      cards.forEach((card, index) => {
-        gsap.set(card, { zIndex: cards.length - index });
-      });
-
-      const timeline = gsap.timeline({
-        defaults: { ease: "power3.out" },
+      gsap.to(q(".team-halo"), {
+        yPercent: -16,
+        scale: 1.08,
+        ease: "none",
         scrollTrigger: {
           trigger: section,
-          start: "top top",
-          end: `+=${cards.length * 900}`,
+          start: "top bottom",
+          end: "bottom top",
           scrub: 1.1,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
         },
       });
 
-      timeline.to(".team-heading", {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.7,
-      });
+      mm.add("(min-width: 768px)", () => {
+        const cards = q(".team-card") as HTMLElement[];
+        const overlays = q(".team-image-overlay") as HTMLElement[];
 
-      cards.forEach((card, index) => {
-        const overlay = overlays[index];
+        gsap.set(q(".team-heading"), { autoAlpha: 0, y: 48 });
+        gsap.set(cards, {
+          y: () => window.innerHeight * 0.9,
+          scale: 0.72,
+          autoAlpha: 0,
+          rotateX: 10,
+          filter: "blur(14px)",
+          transformOrigin: "50% 50%",
+          transformPerspective: 1400,
+          willChange: "transform, opacity, filter",
+        });
+        gsap.set(overlays, { scaleY: 1, transformOrigin: "top center" });
 
-        timeline.to(
-          card,
-          {
-            y: 0,
-            scale: 1,
-            autoAlpha: 1,
-            rotateX: 0,
-            filter: "blur(0px)",
-            duration: 0.95,
-            ease: "expo.out",
+        cards.forEach((card, index) => {
+          gsap.set(card, { zIndex: cards.length - index });
+        });
+
+        const timeline = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: `+=${cards.length * 900}`,
+            scrub: 1.1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
-          index === 0 ? "-=0.1" : ">-0.08",
-        );
+        });
 
-        if (overlay) {
+        timeline.to(q(".team-heading"), {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+        });
+
+        cards.forEach((card, index) => {
+          const overlay = overlays[index];
+
           timeline.to(
-            overlay,
+            card,
             {
-              scaleY: 0,
-              duration: 0.8,
-              ease: "power2.inOut",
+              y: 0,
+              scale: 1,
+              autoAlpha: 1,
+              rotateX: 0,
+              filter: "blur(0px)",
+              duration: 0.95,
+              ease: "expo.out",
             },
-            "<",
+            index === 0 ? "-=0.1" : ">-0.08",
           );
-        }
 
-        timeline.to(card, {
-          scale: 1.08,
-          duration: 0.45,
-          ease: "power1.inOut",
-        });
+          if (overlay) {
+            timeline.to(
+              overlay,
+              {
+                scaleY: 0,
+                duration: 0.8,
+                ease: "power2.inOut",
+              },
+              "<",
+            );
+          }
 
-        timeline.to(card, {
-          scale: 1,
-          duration: 0.28,
-          ease: "power2.out",
-        });
-
-        if (index < cards.length - 1) {
           timeline.to(card, {
-            x: () => -window.innerWidth * 1.15,
-            y: -36,
-            rotate: -14,
-            scale: 0.82,
-            autoAlpha: 0,
-            filter: "blur(8px)",
-            duration: 0.9,
-            ease: "power2.in",
+            scale: 1.08,
+            duration: 0.45,
+            ease: "power1.inOut",
           });
-        } else {
+
           timeline.to(card, {
-            y: -20,
-            scale: 0.96,
-            duration: 0.6,
+            scale: 1,
+            duration: 0.28,
             ease: "power2.out",
           });
-        }
+
+          if (index < cards.length - 1) {
+            timeline.to(card, {
+              x: () => -window.innerWidth * 1.15,
+              y: -36,
+              rotate: -14,
+              scale: 0.82,
+              autoAlpha: 0,
+              filter: "blur(8px)",
+              duration: 0.9,
+              ease: "power2.in",
+            });
+          } else {
+            timeline.to(card, {
+              y: -20,
+              scale: 0.96,
+              duration: 0.6,
+              ease: "power2.out",
+            });
+          }
+        });
+      });
+
+      mm.add("(max-width: 767px)", () => {
+        const cards = q(".team-card") as HTMLElement[];
+
+        gsap.set(q(".team-heading"), { autoAlpha: 1, y: 0 });
+        gsap.set(q(".team-image-overlay"), {
+          scaleY: 0,
+          transformOrigin: "top center",
+        });
+
+        gsap.from(cards, {
+          y: 54,
+          autoAlpha: 0,
+          duration: 0.85,
+          stagger: 0.16,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 78%",
+            toggleActions: "play none none reverse",
+          },
+        });
       });
     }, section);
 
-    return () => ctx.revert();
+    return () => {
+      mm.revert();
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -178,13 +222,13 @@ export default function Team() {
           </p>
         </div>
 
-        <div className="relative h-[24rem] sm:h-[29rem] lg:h-[31rem]">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.22),transparent_62%)]" />
+        <div className="relative space-y-5 md:h-[29rem] md:space-y-0 lg:h-[31rem]">
+          <div className="team-halo pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.22),transparent_62%)]" />
 
           {team.map((member, index) => (
             <div
               key={member.name}
-              className="absolute inset-0 flex items-center justify-center px-1 sm:px-6"
+              className="relative flex items-center justify-center px-1 sm:px-6 md:absolute md:inset-0"
             >
               <article className="team-card relative w-full max-w-[18rem] overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.08] shadow-[0_32px_120px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:max-w-[32rem] lg:max-w-[44rem]">
                 <div className="grid min-h-full lg:grid-cols-[0.95fr_1.05fr]">

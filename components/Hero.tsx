@@ -2,6 +2,9 @@
 
 import { CSSProperties, useEffect, useId, useMemo, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function KineticWordLine({ word }: { word: string }) {
   const clipPathId = useId().replace(/:/g, "");
@@ -111,17 +114,19 @@ export default function Hero() {
     }
 
     const ctx = gsap.context(() => {
+      const q = gsap.utils.selector(section);
+
       const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
       });
 
-      tl.from(".hero-meta", {
+      tl.from(q(".hero-meta"), {
         y: 20,
         opacity: 0,
         duration: 0.7,
       })
         .from(
-          ".hero-word-line",
+          q(".hero-word-line"),
           {
             y: 46,
             opacity: 0,
@@ -132,7 +137,7 @@ export default function Hero() {
           "-=0.3",
         )
         .from(
-          ".hero-subtext",
+          q(".hero-subtext"),
           {
             y: 24,
             opacity: 0,
@@ -141,13 +146,85 @@ export default function Hero() {
           "-=0.45",
         )
         .from(
-          ".hero-cta",
+          q(".hero-cta"),
           {
             y: 22,
             opacity: 0,
             duration: 0.7,
           },
           "-=0.4",
+        )
+        .from(
+          q(".hero-stage-shell"),
+          {
+            scale: 0.82,
+            opacity: 0,
+            duration: 1.15,
+            ease: "expo.out",
+          },
+          "-=0.85",
+        )
+        .from(
+          q(".hero-stage-chip"),
+          {
+            y: 16,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.08,
+          },
+          "-=0.8",
+        );
+
+      gsap.to(q(".hero-stage-orbit"), {
+        rotate: 360,
+        duration: 24,
+        repeat: -1,
+        ease: "none",
+      });
+
+      gsap.to(q(".hero-stage-core"), {
+        yPercent: -8,
+        duration: 2.8,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.1,
+        },
+      })
+        .to(
+          q(".hero-copy"),
+          {
+            yPercent: -12,
+            opacity: 0.84,
+            ease: "none",
+          },
+          0,
+        )
+        .to(
+          q(".hero-stage-shell"),
+          {
+            yPercent: 12,
+            rotate: 8,
+            scale: 1.05,
+            ease: "none",
+          },
+          0,
+        )
+        .to(
+          q(".hero-cta"),
+          {
+            yPercent: -20,
+            opacity: 0.72,
+            ease: "none",
+          },
+          0,
         );
     }, section);
 
@@ -177,7 +254,30 @@ export default function Hero() {
           </p>
         </div>
 
-        <div aria-hidden="true" className="hidden min-h-[24rem] lg:block" />
+        <div aria-hidden="true" className="hidden min-h-[24rem] items-center justify-center lg:flex">
+          <div className="hero-stage-shell relative aspect-square w-full max-w-[26rem] rounded-full border border-white/10 bg-white/[0.03] shadow-[0_24px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+            <div className="hero-stage-orbit absolute inset-4 rounded-full border border-white/8" />
+            <div className="hero-stage-orbit absolute inset-11 rounded-full border border-dashed border-white/10" />
+            <div className="hero-stage-orbit absolute inset-[28%] rounded-full border border-white/6" />
+
+            <div className="absolute inset-x-12 top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)]" />
+            <div className="absolute inset-y-12 left-1/2 w-px -translate-x-1/2 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.16),transparent)]" />
+
+            <div className="hero-stage-core absolute left-1/2 top-1/2 flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-white/[0.06] shadow-[0_0_60px_rgba(255,255,255,0.08)]">
+              <div className="h-3 w-3 rounded-full bg-white/75 shadow-[0_0_18px_rgba(255,255,255,0.5)]" />
+            </div>
+
+            <div className="hero-stage-chip absolute left-0 top-[18%] rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/60 backdrop-blur-md">
+              Material Study
+            </div>
+            <div className="hero-stage-chip absolute right-4 top-[22%] rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/60 backdrop-blur-md">
+              Motion Draft
+            </div>
+            <div className="hero-stage-chip absolute bottom-[18%] left-[12%] rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/60 backdrop-blur-md">
+              Scale Logic
+            </div>
+          </div>
+        </div>
 
         <div className="hero-cta flex justify-start lg:justify-end">
           <a
