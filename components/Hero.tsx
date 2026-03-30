@@ -1,298 +1,178 @@
 "use client";
 
-import { CSSProperties, useEffect, useId, useMemo, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import dynamic from "next/dynamic";
+import { useRef } from "react";
+import LightRays from "./LightRays";
+import BlurText from "./BlurText";
+import SceneWrapper from "./SceneWrapper";
+import PremiumButton from "./PremiumButton";
 
-gsap.registerPlugin(ScrollTrigger);
+const ScrollFloat = dynamic(() => import("./ScrollFloat"), { ssr: false });
 
-function KineticWordLine({ word }: { word: string }) {
-  const clipPathId = useId().replace(/:/g, "");
-
-  const bars = useMemo(() => {
-    const numBars = 250;
-    const viewBoxWidth = 2000;
-    const barWidth = viewBoxWidth / numBars;
-    const gap = 0.5;
-
-    return Array.from({ length: numBars }, (_, index) => {
-      const normalizedX = index / numBars;
-      const slowWave = Math.sin(normalizedX * Math.PI * 2);
-      const fastWave = Math.sin(normalizedX * Math.PI * 6) * 0.5;
-      const combinedWave = (slowWave + fastWave) / 1.5;
-      const delay = normalizedX * -2.5;
-      const duration = 1.2 + (index % 5) * 0.08;
-      const scaleMin = 0.2 + Math.abs(fastWave) * 0.8;
-      const scaleMax = 0.9 + Math.abs(combinedWave) * 0.8;
-
-      return {
-        x: (index - 14) * barWidth,
-        width: barWidth - gap,
-        delay,
-        duration,
-        scaleMin,
-        scaleMax,
-      };
-    });
-  }, []);
-
-  const fontSize = word.length > 9 ? 200 : 240;
-
-  return (
-    <div className="hero-word-line">
-      <svg
-        className="hero-kinetic-svg"
-        viewBox="0 0 1000 240"
-        preserveAspectRatio="xMidYMid meet"
-        aria-hidden="true"
-      >
-        <defs>
-          <clipPath id={clipPathId}>
-            <text
-              x="50%"
-              y="66%"
-              textAnchor="middle"
-              fontFamily="Inter, sans-serif"
-              fontWeight="700"
-              fontSize={fontSize}
-              letterSpacing="-0.04em"
-            >
-              {word}
-            </text>
-          </clipPath>
-        </defs>
-
-        <g clipPath={`url(#${clipPathId})`}>
-          {bars.map((bar) => (
-            <rect
-              key={`${word}-${bar.x}`}
-              className="hero-kinetic-bar"
-              x={bar.x}
-              y="0"
-              width={bar.width}
-              height="100%"
-              style={
-                {
-                  "--anim-delay": `${bar.delay}s`,
-                  "--anim-duration": `${bar.duration}s`,
-                  "--scale-min": bar.scaleMin,
-                  "--scale-max": bar.scaleMax,
-                } as CSSProperties
-              }
-            />
-          ))}
-        </g>
-
-        <text
-          x="50%"
-          y="66%"
-          textAnchor="middle"
-          fontFamily="Inter, sans-serif"
-          fontWeight="700"
-          fontSize={fontSize}
-          letterSpacing="-0.04em"
-          fill="none"
-          stroke="rgba(255,255,255,0.2)"
-          strokeWidth="1"
-          opacity="0.35"
-        >
-          {word}
-        </text>
-      </svg>
-    </div>
-  );
-}
+const heroStats = [
+  { value: "150+", label: "Installed forms" },
+  { value: "30", label: "Cities shaped" },
+  { value: "15", label: "Years refining" },
+];
 
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const section = heroRef.current;
-
-    if (!section) {
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      const q = gsap.utils.selector(section);
-
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-      });
-
-      tl.from(q(".hero-meta"), {
-        y: 20,
-        opacity: 0,
-        duration: 0.7,
-      })
-        .from(
-          q(".hero-word-line"),
-          {
-            y: 46,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.12,
-            ease: "expo.out",
-          },
-          "-=0.3",
-        )
-        .from(
-          q(".hero-subtext"),
-          {
-            y: 24,
-            opacity: 0,
-            duration: 0.75,
-          },
-          "-=0.45",
-        )
-        .from(
-          q(".hero-cta"),
-          {
-            y: 22,
-            opacity: 0,
-            duration: 0.7,
-          },
-          "-=0.4",
-        )
-        .from(
-          q(".hero-stage-shell"),
-          {
-            scale: 0.82,
-            opacity: 0,
-            duration: 1.15,
-            ease: "expo.out",
-          },
-          "-=0.85",
-        )
-        .from(
-          q(".hero-stage-chip"),
-          {
-            y: 16,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.08,
-          },
-          "-=0.8",
-        );
-
-      gsap.to(q(".hero-stage-orbit"), {
-        rotate: 360,
-        duration: 24,
-        repeat: -1,
-        ease: "none",
-      });
-
-      gsap.to(q(".hero-stage-core"), {
-        yPercent: -8,
-        duration: 2.8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.1,
-        },
-      })
-        .to(
-          q(".hero-copy"),
-          {
-            yPercent: -12,
-            opacity: 0.84,
-            ease: "none",
-          },
-          0,
-        )
-        .to(
-          q(".hero-stage-shell"),
-          {
-            yPercent: 12,
-            rotate: 8,
-            scale: 1.05,
-            ease: "none",
-          },
-          0,
-        )
-        .to(
-          q(".hero-cta"),
-          {
-            yPercent: -20,
-            opacity: 0.72,
-            ease: "none",
-          },
-          0,
-        );
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
-
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   return (
     <section
       id="home"
-      ref={heroRef}
-      className="relative z-10 pointer-events-none flex min-h-screen items-center px-6 py-24 lg:px-16"
+      ref={scrollContainerRef}
+      className="relative z-10  flex min-h-screen items-center overflow-hidden py-0!  pointer-events-none  justify-between"
     >
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[1fr_1.2fr_0.8fr]">
-        <div className="hero-copy max-w-[32rem] border-t border-white/10 pt-6 pointer-events-none">
-          <p className="hero-meta mb-5 text-[10px] font-medium uppercase tracking-[0.14em] text-white/45">
-            Dumbfound Sculpture Studio
-          </p>
+      {/* <div className="absolute inset-0 z-0">
+        <SceneWrapper />
+      </div> */}
+      {/* <LightRays
+        raysOrigin="top-center"
+        raysColor="#ffffff"
+        raysSpeed={1}
+        lightSpread={0.5}
+        rayLength={3}
+        followMouse={true}
+        mouseInfluence={0.1}
+        noiseAmount={0}
+        distortion={0}
+        className="custom-rays"
+        pulsating={false}
+        fadeDistance={0.5}
+        saturation={1}
+      /> */}
+      <div className="px-6 lg:px-24">
+        <BlurText
+          text="DUMBFOUND"
+          startDelay={200}
+          delay={150}
+          animateBy="words"
+          direction="top"
+          className="text-6xl text-yellow-400 font-bold cursor-target!"
+        />
+        <BlurText
+          text="SCULPTURE STUDIO"
+          startDelay={1000}
+          delay={150}
+          animateBy="words"
+          direction="top"
+          className="text-5xl mb-3 font-bold"
+        />
+        <BlurText
+          text="Elevating modern spaces through "
+          startDelay={2000}
+          delay={100}
+          animateBy="words"
+          direction="top"
+          className="text-2xl"
+        />
+        <BlurText
+          text="the silent poetry of timeless form."
+          startDelay={2600}
+          delay={100}
+          animateBy="words"
+          direction="top"
+          className="text-2xl mb-8"
+        />
+      </div>
 
-          <div className="space-y-1">
-            <KineticWordLine word="CRAFTING" />
-            <KineticWordLine word="TIMELESS" />
-            <KineticWordLine word="SCULPTURES" />
-          </div>
-
-          <p className="hero-subtext mt-5 max-w-sm text-sm font-medium leading-7 tracking-[-0.01em] text-white/68 sm:text-base">
-            Where art meets form, and imagination becomes reality.
-          </p>
-        </div>
-
-        <div aria-hidden="true" className="hidden min-h-[24rem] items-center justify-center lg:flex">
-          <div className="hero-stage-shell relative aspect-square w-full max-w-[26rem] rounded-full border border-white/10 bg-white/[0.03] shadow-[0_24px_120px_rgba(0,0,0,0.35)] backdrop-blur-sm">
-            <div className="hero-stage-orbit absolute inset-4 rounded-full border border-white/8" />
-            <div className="hero-stage-orbit absolute inset-11 rounded-full border border-dashed border-white/10" />
-            <div className="hero-stage-orbit absolute inset-[28%] rounded-full border border-white/6" />
-
-            <div className="absolute inset-x-12 top-1/2 h-px -translate-y-1/2 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)]" />
-            <div className="absolute inset-y-12 left-1/2 w-px -translate-x-1/2 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.16),transparent)]" />
-
-            <div className="hero-stage-core absolute left-1/2 top-1/2 flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-white/[0.06] shadow-[0_0_60px_rgba(255,255,255,0.08)]">
-              <div className="h-3 w-3 rounded-full bg-white/75 shadow-[0_0_18px_rgba(255,255,255,0.5)]" />
-            </div>
-
-            <div className="hero-stage-chip absolute left-0 top-[18%] rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/60 backdrop-blur-md">
-              Material Study
-            </div>
-            <div className="hero-stage-chip absolute right-4 top-[22%] rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/60 backdrop-blur-md">
-              Motion Draft
-            </div>
-            <div className="hero-stage-chip absolute bottom-[18%] left-[12%] rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/60 backdrop-blur-md">
-              Scale Logic
-            </div>
-          </div>
-        </div>
-
-        <div className="hero-cta flex justify-start lg:justify-end">
-          <a
-            href="#gallery"
-            className="group pointer-events-auto inline-flex items-center gap-4 rounded-full border border-white/12 bg-white/[0.06] px-6 py-3 backdrop-blur-md transition-all duration-300 hover:border-white/25 hover:bg-white/[0.12] hover:shadow-[0_0_30px_rgba(255,255,255,0.08)]"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/12 bg-white/[0.08] transition-all duration-300 group-hover:scale-105 group-hover:border-white/25 group-hover:bg-white/15">
-              <span className="h-1.5 w-1.5 rounded-full bg-white/75 transition-colors duration-300 group-hover:bg-white" />
-            </span>
-            <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/85 transition-colors duration-300 group-hover:text-white">
-              Explore Our Work
-            </span>
-          </a>
-        </div>
+      <div className=" pointer-events-auto text-black  px-6 lg:px-24">
+        <PremiumButton className="cursor-target" text="Explore Our Work" />
       </div>
     </section>
   );
 }
+
+// <div className="mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+//   <div className="relative">
+//     <div className="mb-6 inline-flex rounded-full border border-white/12 bg-white/[0.05] px-4 py-2 text-[10px] uppercase tracking-[0.42em] text-white/60 backdrop-blur-md">
+//       Dumbfound Sculpture Studio
+//     </div>
+
+//     <div className="max-w-4xl">
+//       <ScrollFloat
+//         scrollContainerRef={scrollContainerRef}
+//         containerClassName="text-left"
+//         textClassName="font-display block text-5xl font-semibold uppercase tracking-[-0.05em] text-white sm:text-6xl lg:text-[6.8rem]"
+//         scrollStart="top 88%"
+//         scrollEnd="bottom 65%"
+//       >
+//         Sculpture With Atmosphere
+//       </ScrollFloat>
+//     </div>
+
+//     <p className="mt-6 max-w-xl text-base leading-8 text-white/68 sm:text-lg">
+//       We build sculptural spaces that feel alive before the viewer even
+//       reaches them. The site should carry that same sense of mass,
+//       suspension, and precision.
+//     </p>
+
+//     <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+//       <a
+//         href="#gallery"
+//         className="cursor-target inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-black transition-transform duration-300 hover:-translate-y-0.5"
+//       >
+//         View the Collection
+//       </a>
+//       <a
+//         href="#contact"
+//         className="cursor-target inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.05] px-6 py-3 text-[11px] uppercase tracking-[0.28em] text-white/78 backdrop-blur-md transition-colors duration-300 hover:border-white/24 hover:text-white"
+//       >
+//         Start a Commission
+//       </a>
+//     </div>
+
+//     <div className="mt-12 grid gap-4 sm:grid-cols-3">
+//       {heroStats.map((item) => (
+//         <div
+//           key={item.label}
+//           className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-md"
+//         >
+//           <div className="text-3xl font-display text-white">
+//             {item.value}
+//           </div>
+//           <div className="mt-2 text-[10px] uppercase tracking-[0.32em] text-white/42">
+//             {item.label}
+//           </div>
+//         </div>
+//       ))}
+//     </div>
+//   </div>
+
+//   {/* <div className="relative h-[26rem] sm:h-[32rem] lg:h-[39rem]">
+//     <div className="absolute inset-0 rounded-[2.4rem] border border-white/12 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.1),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.05),rgba(0,0,0,0.14))] shadow-[0_40px_120px_rgba(0,0,0,0.38)] backdrop-blur-md" />
+//     <div className="absolute inset-[10%] rounded-[2rem] border border-white/10 bg-black/12" />
+//     <div className="absolute left-1/2 top-[36%] h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/14 bg-[radial-gradient(circle,rgba(255,255,255,0.12),transparent_68%)] shadow-[0_0_80px_rgba(255,255,255,0.08)]" />
+//     <div className="absolute left-1/2 top-[36%] h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/8" />
+//     <div className="absolute left-1/2 top-[36%] h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-white/8" />
+//     <div className="pointer-events-none absolute inset-0 rounded-[2.4rem] bg-[linear-gradient(180deg,rgba(4,7,13,0)_0%,rgba(4,7,13,0.18)_100%)]" />
+
+//     <div className="absolute left-5 top-5 rounded-full border border-white/10 bg-black/25 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-white/56 backdrop-blur-md">
+//       Global motion field
+//     </div>
+//     <div className="absolute right-5 top-5 rounded-full border border-white/10 bg-black/25 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-white/56 backdrop-blur-md">
+//       Sculpture remains live
+//     </div>
+//     <div className="absolute inset-x-5 bottom-5 grid gap-4 sm:grid-cols-2">
+//       <div className="rounded-[1.6rem] border border-white/10 bg-black/25 p-5 backdrop-blur-md">
+//         <div className="text-[10px] uppercase tracking-[0.34em] text-white/42">
+//           Motion cue
+//         </div>
+//         <p className="mt-3 text-sm leading-6 text-white/68">
+//           Antigravity now lives behind the entire application, so the page
+//           feels consistently energized instead of saving that motion for
+//           the opening section alone.
+//         </p>
+//       </div>
+//       <div className="rounded-[1.6rem] border border-white/10 bg-black/25 p-5 backdrop-blur-md">
+//         <div className="text-[10px] uppercase tracking-[0.34em] text-white/42">
+//           Intended tone
+//         </div>
+//         <p className="mt-3 text-sm leading-6 text-white/68">
+//           The 3D sculpture still anchors the composition, while the
+//           particle field adds atmosphere and depth around it.
+//         </p>
+//       </div>
+//     </div>
+//   </div> */}
+// </div>

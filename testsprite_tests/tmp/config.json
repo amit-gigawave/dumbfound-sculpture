@@ -1,0 +1,21 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3001",
+  "executionArgs": {
+    "projectName": "dumbfound-sculpture",
+    "projectPath": "d:\\Giga wave\\dumbfound-sculpture",
+    "testIds": [
+      "TC001",
+      "TC006"
+    ],
+    "additionalInstruction": "Project is running in production mode on port 3001. Focus on verifying the hero section and 3D sculpture visibility.",
+    "serverMode": "production",
+    "envs": {
+      "API_KEY": "sk-user-jpyBkyQBA33JTUVv1vo1U4UHufNrpj_ZfwpeoO4TKlbY4lew-grloWtHb9zkd4WPMoj1yP8HEBEx6UiUtRJ76JxuZ1GUWvmM7no1OhixissLI0414b5nSRyqK771KnO__3c"
+    }
+  },
+  "serverPort": 61219,
+  "proxy": "http://1e843219-87b6-4c81-994c-864bba5a9cec:s3oqdRWdLnFcN3yW6shItXUQ2xxUMEW1@tun.testsprite.com:8080"
+}

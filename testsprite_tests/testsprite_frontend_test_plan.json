@@ -1,0 +1,326 @@
+[
+  {
+    "id": "TC001",
+    "title": "3D hero loads and shows interactive motion on pointer movement",
+    "description": "Verifies the landing page hero renders a 3D sculpture and responds to pointer movement with a camera/perspective shift.",
+    "category": "3D Sculpture Hero",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the hero 3D content to finish loading"
+      },
+      {
+        "type": "action",
+        "description": "Move the pointer across the hero area"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the hero 3D sculpture is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the hero camera perspective shifts in response to pointer movement"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "3D hero parallax responds to scrolling",
+    "description": "Verifies scrolling on the landing page triggers parallax/cinematic movement affecting the hero section presentation.",
+    "category": "3D Sculpture Hero",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down the page using the mouse wheel"
+      },
+      {
+        "type": "action",
+        "description": "Scroll up the page using the mouse wheel"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify parallax movement is visible while scrolling in the hero area"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "3D hero shows visible rotation/animation over time",
+    "description": "Verifies the hero sculpture exhibits continuous rotation or subtle floating motion without user interaction.",
+    "category": "3D Sculpture Hero",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the hero 3D content to finish loading"
+      },
+      {
+        "type": "action",
+        "description": "Wait for a short period to observe motion"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the hero 3D sculpture shows continuous motion (rotation or floating)"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Hero displays a fallback state when the 3D model does not load in time",
+    "description": "Verifies the hero presents a visible fallback visual and guidance when assets remain loading beyond an expected threshold.",
+    "category": "3D Sculpture Hero",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Wait for an extended period for hero assets to load"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a fallback visual for the hero 3D content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify contextual guidance is displayed indicating the model could not load"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Sculpture gallery loads and displays sculpture cards",
+    "description": "Verifies the gallery section on the landing page renders a browsable grid/list of sculpture entries.",
+    "category": "Sculpture Gallery",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down to the sculpture gallery section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify sculpture cards are displayed in the gallery"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Gallery cards show a hover interaction effect",
+    "description": "Verifies hovering over a sculpture card triggers a visual hover effect to indicate interactivity.",
+    "category": "Sculpture Gallery",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down to the sculpture gallery section"
+      },
+      {
+        "type": "action",
+        "description": "Move the pointer over a sculpture card"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the hovered sculpture card shows a hover interaction effect"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Open a sculpture into full-screen viewer and see 3D model plus details",
+    "description": "Verifies a user can open a sculpture entry into a full-screen viewer with a rotating 3D sculpture and details panel.",
+    "category": "Sculpture Gallery",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down to the sculpture gallery section"
+      },
+      {
+        "type": "action",
+        "description": "Click a sculpture card to open its full-screen viewer"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the 3D viewer content to finish loading"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a full-screen sculpture viewer is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify sculpture details (title, location, and year) are displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Rotate the sculpture in the full-screen viewer with pointer control",
+    "description": "Verifies the 3D viewer responds to pointer movement by rotating the sculpture for inspection.",
+    "category": "Sculpture Gallery",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down to the sculpture gallery section"
+      },
+      {
+        "type": "action",
+        "description": "Click a sculpture card to open its full-screen viewer"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the 3D viewer content to finish loading"
+      },
+      {
+        "type": "action",
+        "description": "Move the pointer across the 3D viewer to rotate the sculpture"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the sculpture orientation changes in response to pointer movement"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Viewer shows fallback when 3D viewer fails to initialize or model fails to load",
+    "description": "Verifies the full-screen viewer presents a fallback image and guidance to retry or return when 3D content is unavailable.",
+    "category": "Sculpture Gallery",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down to the sculpture gallery section"
+      },
+      {
+        "type": "action",
+        "description": "Click a sculpture card to open its full-screen viewer"
+      },
+      {
+        "type": "action",
+        "description": "Wait for an extended period for the 3D viewer to initialize"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a fallback image is displayed in place of the 3D viewer"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify contextual guidance is displayed to retry or return to the gallery"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Smooth scrolling provides inertia-based cinematic movement between sections",
+    "description": "Verifies Lenis-powered scrolling feels continuous and inertial while traversing sections on the landing page.",
+    "category": "Smooth Scrolling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Use the mouse wheel to scroll down through multiple sections"
+      },
+      {
+        "type": "action",
+        "description": "Stop scrolling and wait briefly"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify scrolling continues briefly with preserved inertia after input stops"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page lands on a later section of the layout"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Parallax effects remain in sync with smooth scrolling",
+    "description": "Verifies parallax and cinematic transitions remain consistent while scrolling smoothly across sections.",
+    "category": "Smooth Scrolling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Use the mouse wheel to scroll down slowly"
+      },
+      {
+        "type": "action",
+        "description": "Use the mouse wheel to scroll down quickly"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify parallax effects are visible and remain synchronized with scroll movement"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Fallback guidance appears if smooth scrolling engine fails and scrolling is janky",
+    "description": "Verifies that when smooth scrolling fails, the UI presents a visible suggestion to reload or disable smooth scrolling for stability.",
+    "category": "Smooth Scrolling",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Use the mouse wheel to scroll repeatedly up and down"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a suggestion is displayed to reload or disable smooth scrolling for improved stability"
+      }
+    ]
+  }
+]

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import clsx from "clsx";
+import GooeyNav from "./GooeyNav";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,40 +17,46 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Gallery", href: "#gallery" },
-    { name: "Contact", href: "#contact" },
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Gallery", href: "#gallery" },
+    { label: "Contact", href: "#contact" },
   ];
 
   return (
     <nav
       className={clsx(
-        "fixed top-0 w-full z-50 transition-all duration-300 px-6 py-4",
-        isScrolled ? "bg-black/80 backdrop-blur-md border-b border-white/10" : "bg-transparent"
+        "fixed top-0 w-full z-50 px-6 py-4 transition-all duration-300",
+        isScrolled
+          ? "bg-black border-b border-white/10 backdrop-blur-md"
+          : "bg-transparent",
       )}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <a href="#home" className="text-2xl font-bold tracking-tighter text-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <a
+          href="#home"
+          className="cursor-target mix-blend-difference text-2xl font-bold tracking-tighter text-white"
+        >
           DUMBFOUND
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-zinc-300 hover:text-white transition-colors uppercase tracking-widest"
-            >
-              {link.name}
-            </a>
-          ))}
+        <div className="hidden md:block">
+          <GooeyNav
+            items={navLinks}
+            particleCount={42}
+            particleDistances={[90, 10]}
+            particleR={100}
+            initialActiveIndex={0}
+            animationTime={400}
+            timeVariance={600}
+            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+          />
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-white"
+          className="cursor-target text-white mix-blend-difference md:hidden"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -58,15 +65,15 @@ export default function Navbar() {
 
       {/* Mobile Nav */}
       {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10 py-6 flex flex-col items-center gap-6 md:hidden">
+        <div className="absolute top-full left-0 flex w-full flex-col items-center gap-6 border-b border-white/10 bg-black/95 py-6 text-white backdrop-blur-xl md:hidden">
           {navLinks.map((link) => (
             <a
-              key={link.name}
+              key={link.label}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="text-lg font-medium text-zinc-300 hover:text-white transition-colors tracking-widest uppercase"
+              className="cursor-target text-lg font-medium text-zinc-300 hover:text-white transition-colors tracking-widest uppercase"
             >
-              {link.name}
+              {link.label}
             </a>
           ))}
         </div>

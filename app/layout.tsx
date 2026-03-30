@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display, Geist } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import SmoothScroll from "@/components/SmoothScroll";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,8 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
-        <Navbar />
-        {children}
+        <SmoothScroll>
+          <Navbar />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

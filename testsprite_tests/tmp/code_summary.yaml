@@ -1,0 +1,47 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - Next.js
+  - Tailwind CSS
+  - GSAP
+  - React Three Fiber
+  - Lenis
+routes:
+  - path: /
+    file: app/page.tsx
+    auth_required: false
+    description: Main landing page with 3D sculptures and smooth scrolling.
+features:
+  - name: 3D Sculpture Hero
+    description: Immersive hero section with interactive 3D sculpture.
+    files:
+      - components/Hero.tsx
+      - components/SculptureScene.tsx
+    entry_route: /
+    user_interactions:
+      - Scroll to see parallax effects
+      - Observe 3D sculpture rotation
+    api_calls: []
+    auth_required: false
+  - name: Sculpture Gallery
+    description: Interactive gallery of stone sculptures.
+    files:
+      - components/Gallery.tsx
+      - components/SculptureCards.tsx
+    entry_route: /
+    user_interactions:
+      - Scroll through sculpture cards
+      - Hover over cards for effects
+    api_calls: []
+    auth_required: false
+  - name: Smooth Scrolling
+    description: Lenis-powered smooth scrolling for cinematic navigation.
+    files:
+      - components/SmoothScroll.tsx
+    entry_route: /
+    user_interactions:
+      - Use mouse wheel to scroll smoothly
+    api_calls: []
+    auth_required: false
+known_limitations: []

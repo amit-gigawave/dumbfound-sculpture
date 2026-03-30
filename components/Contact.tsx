@@ -1,131 +1,20 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger);
+import dynamic from "next/dynamic";
+import { useState } from "react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import BorderGlow from "./BorderGlow";
+
+const GradualBlur = dynamic(() => import("./GradualBlur"), { ssr: false });
+const ScrollFloat = dynamic(() => import("./ScrollFloat"), { ssr: false });
 
 export default function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     projectType: "",
     message: "",
   });
-
-  useEffect(() => {
-    const section = sectionRef.current;
-
-    if (!section) {
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      const q = gsap.utils.selector(section);
-
-      gsap.from(q(".contact-heading > *"), {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-        y: 32,
-        opacity: 0,
-        duration: 0.85,
-        stagger: 0.12,
-        ease: "power3.out",
-      });
-
-      gsap.from(q(".contact-left"), {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-        x: -80,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-      });
-
-      gsap.from(q(".contact-right"), {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-        x: 100,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-      });
-
-      gsap.from(q(".contact-item"), {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 72%",
-          toggleActions: "play none none reverse",
-        },
-        y: 24,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: "power3.out",
-      });
-
-      gsap.from(q(".contact-field"), {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 72%",
-          toggleActions: "play none none reverse",
-        },
-        y: 26,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: "power3.out",
-      });
-
-      gsap.to(q(".contact-glow"), {
-        yPercent: -18,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
-
-      gsap.to(q(".contact-panel"), {
-        yPercent: -4,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.05,
-        },
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your form submission logic here
-  };
-
-  const updateField = (field: keyof typeof formData, value: string) => {
-    setFormData((current) => ({
-      ...current,
-      [field]: value,
-    }));
-  };
 
   const contactInfo = [
     { icon: MapPin, label: "Address", value: "Mumbai, Maharashtra, India" },
@@ -134,125 +23,182 @@ export default function Contact() {
     { icon: Clock, label: "Hours", value: "Mon - Sat: 9AM - 6PM" },
   ];
 
+  const updateField = (field: keyof typeof formData, value: string) => {
+    setFormData((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
   return (
     <section
       id="contact"
-      ref={sectionRef}
-      className="relative z-10 min-h-screen py-32 px-6 lg:px-16 pointer-events-none"
+      className="relative z-10 overflow-hidden px-6 py-28 lg:px-16"
     >
-      <div className="contact-glow pointer-events-none absolute right-12 top-24 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.16),transparent_70%)] blur-3xl" />
 
-      <div className="max-w-7xl mx-auto">
-        <div className="contact-heading mb-20 text-center">
-          <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.42em] text-white/45">
-            Start a Conversation
+
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-14 max-w-4xl">
+          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-white/42">
+            Contact
           </p>
-          <h2 className="text-5xl lg:text-7xl font-bold text-center text-white">
-            Let&apos;s <span className="text-indigo-400">Create</span> Together
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-            The close of the page should feel calm and precise. Contact details
-            arrive first, then the form opens in a slower, more confident rhythm.
+          <ScrollFloat
+            containerClassName="text-left"
+            textClassName="font-display block text-4xl font-semibold uppercase tracking-[-0.05em] text-white sm:text-5xl "
+          >
+            Build The Next Landmark
+          </ScrollFloat>
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg">
+            The closing section should feel assured, not generic. It keeps the
+            same glass-and-atmosphere language while giving the client a very
+            clear next move.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-16">
-          {/* Left: Contact Info */}
-          <div className="contact-left space-y-8">
-            <p className="text-xl text-zinc-400 leading-relaxed mb-12">
-              Have a project in mind? We&apos;d love to hear about it. Reach out and
-              let&apos;s bring your vision to life.
-            </p>
-
-            {contactInfo.map((item, i) => (
-              <div
-                key={i}
-                className="contact-item flex items-start gap-4 rounded-[1.5rem] border border-white/8 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 hover:border-white/14 hover:bg-white/[0.05]"
+        <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr]">
+          <div className="grid gap-4">
+            {contactInfo.map((item) => (
+              <BorderGlow
+                key={item.label}
+                className="cursor-target overflow-hidden border-white/10"
+                backgroundColor="#090312"
+                borderRadius={28}
+                glowRadius={28}
+                edgeSensitivity={58}
+                coneSpread={20}
+                glowIntensity={0.9}
+                colors={["#f4f0e8", "#8ea4ff", "#62d4c8"]}
+                forceHover
+                forceHoverAngle={315}
+                forceHoverProximity={1}
               >
-                <div className="bg-indigo-500/20 p-3 rounded-lg">
-                  <item.icon className="w-6 h-6 text-indigo-400" />
-                </div>
-                <div>
-                  <div className="text-sm text-zinc-500 uppercase tracking-wider mb-1">
-                    {item.label}
+                <div className="p-5">
+                  <div className="flex items-start gap-4">
+                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
+                      <item.icon className="h-5 w-5 text-white/74" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] uppercase tracking-[0.32em] text-white/40">
+                        {item.label}
+                      </div>
+                      <div className="mt-2 text-base text-white/82">
+                        {item.value}
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-lg text-white">{item.value}</div>
                 </div>
-              </div>
+              </BorderGlow>
             ))}
+
+            <BorderGlow
+              className="overflow-hidden border-white/10"
+              backgroundColor="#090312"
+              borderRadius={28}
+              glowRadius={28}
+              edgeSensitivity={58}
+              coneSpread={20}
+              glowIntensity={0.9}
+              colors={["#ffe1f4", "#ff8d76", "#f4f0e8"]}
+              forceHover
+              forceHoverAngle={315}
+              forceHoverProximity={1}
+            >
+              <div className="p-6">
+                <div className="text-[10px] uppercase tracking-[0.34em] text-white/42">
+                  Typical response window
+                </div>
+                <p className="mt-4 text-sm leading-7 text-white/62">
+                  We usually reply within 48 hours with an initial direction,
+                  project questions, and a recommended next step.
+                </p>
+              </div>
+            </BorderGlow>
           </div>
 
-          {/* Right: Contact Form */}
-          <div className="contact-right pointer-events-auto">
+          <BorderGlow
+            className="overflow-hidden border-white/10"
+            backgroundColor="#090312"
+            borderRadius={38}
+            glowRadius={34}
+            edgeSensitivity={56}
+            coneSpread={22}
+            glowIntensity={1}
+            colors={["#d7f2ff", "#8ea4ff", "#f4f0e8"]}
+            forceHover
+            forceHoverAngle={315}
+            forceHoverProximity={1}
+          >
             <form
               onSubmit={handleSubmit}
-              className="contact-panel space-y-6 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-[0_28px_110px_rgba(0,0,0,0.34)] backdrop-blur-xl lg:p-8"
+              className="p-6 shadow-[0_28px_100px_rgba(0,0,0,0.3)] sm:p-8"
             >
-              <div className="contact-field">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={(e) => updateField("name", e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-white placeholder:text-zinc-500 focus:outline-none focus:border-indigo-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div className="contact-field">
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  value={formData.email}
-                  onChange={(e) => updateField("email", e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-white placeholder:text-zinc-500 focus:outline-none focus:border-indigo-400 transition-colors"
-                  required
-                />
-              </div>
-
-              <div className="contact-field">
-                <select
-                  value={formData.projectType}
-                  onChange={(e) => updateField("projectType", e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-white focus:outline-none focus:border-indigo-400 transition-colors"
-                  required
-                >
-                  <option value="" disabled>
-                    Project Type
-                  </option>
-                  <option value="residential">Residential</option>
-                  <option value="commercial">Commercial</option>
-                  <option value="public">Public Space</option>
-                  <option value="custom">Custom Commission</option>
-                </select>
-              </div>
-
-              <div className="contact-field">
-                <textarea
-                  placeholder="Tell us about your project"
-                  value={formData.message}
-                  onChange={(e) => updateField("message", e.target.value)}
-                  rows={6}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-6 py-4 text-white placeholder:text-zinc-500 focus:outline-none focus:border-indigo-400 transition-colors resize-none"
-                  required
-                />
-              </div>
-
-              <div className="contact-field">
-                <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.34em] text-white/38">
-                  <span>Response Window</span>
-                  <span>Within 48 hours</span>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="sm:col-span-1">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    value={formData.name}
+                    onChange={(e) => updateField("name", e.target.value)}
+                    className="cursor-target w-full rounded-[1.2rem] border border-white/10 bg-black/18 px-5 py-4 text-white placeholder:text-white/36 focus:border-white/24 focus:outline-none"
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-1">
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    value={formData.email}
+                    onChange={(e) => updateField("email", e.target.value)}
+                    className="cursor-target w-full rounded-[1.2rem] border border-white/10 bg-black/18 px-5 py-4 text-white placeholder:text-white/36 focus:border-white/24 focus:outline-none"
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <select
+                    value={formData.projectType}
+                    onChange={(e) => updateField("projectType", e.target.value)}
+                    className="cursor-target w-full rounded-[1.2rem] border border-white/10 bg-black/18 px-5 py-4 text-white focus:border-white/24 focus:outline-none"
+                    required
+                  >
+                    <option value="" disabled>
+                      Project Type
+                    </option>
+                    <option value="residential">Residential</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="public">Public Space</option>
+                    <option value="custom">Custom Commission</option>
+                  </select>
+                </div>
+                <div className="sm:col-span-2">
+                  <textarea
+                    placeholder="Tell us about your project"
+                    value={formData.message}
+                    onChange={(e) => updateField("message", e.target.value)}
+                    rows={7}
+                    className="cursor-target w-full resize-none rounded-[1.4rem] border border-white/10 bg-black/18 px-5 py-4 text-white placeholder:text-white/36 focus:border-white/24 focus:outline-none"
+                    required
+                  />
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="contact-field w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-4 rounded-lg transition-all duration-300 uppercase tracking-widest text-sm hover:scale-[1.02]"
-              >
-                Start Your Project
-              </button>
+              <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-[10px] uppercase tracking-[0.32em] text-white/40">
+                  Share references, dimensions, or site notes if available
+                </p>
+                <button
+                  type="submit"
+                  className="cursor-target inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-black transition-transform duration-300 hover:-translate-y-0.5"
+                >
+                  Start the Project
+                </button>
+              </div>
             </form>
-          </div>
+          </BorderGlow>
         </div>
       </div>
     </section>
