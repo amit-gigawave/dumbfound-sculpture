@@ -106,14 +106,14 @@ export default function Gallery() {
             scrollStart='center bottom+=10%'
             scrollEnd='bottom bottom-=40%'
             stagger={0.03}
-            textClassName="text-7xl mx-auto w-full font-bold text-white"
+            textClassName="text-7xl mx-auto w-full font-bold text-black"
           >
-            Gallary
+            Gallery
           </ScrollFloat>
 
 
           <div className="h-[600px]  w-full relative">
-            <CircularGallery items={items} bend={3} />
+            <CircularGallery items={items} bend={3} textColor="#e5e5e5" />
           </div>
         </div>
       </section>

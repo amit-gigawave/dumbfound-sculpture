@@ -26,16 +26,16 @@ export default function Navbar() {
   return (
     <nav
       className={clsx(
-        "fixed top-0 w-full z-50 px-6 py-4 transition-all duration-300",
+        "fixed top-0 w-full z-50 px-6 py-2 transition-all duration-300 ",
         isScrolled
-          ? "bg-black border-b border-white/10 backdrop-blur-md"
+          ? "  shadow-sm bg-black/50 backdrop-blur-md"
           : "bg-transparent",
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <a
           href="#home"
-          className="cursor-target mix-blend-difference text-2xl font-bold tracking-tighter text-white"
+          className="cursor-target text-2xl font-bold tracking-tighter transition-colors text-background"
         >
           DUMBFOUND
         </a>
@@ -51,12 +51,13 @@ export default function Navbar() {
             animationTime={400}
             timeVariance={600}
             colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+            isScrolled={isScrolled}
           />
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="cursor-target text-white mix-blend-difference md:hidden"
+          className="cursor-target transition-colors md:hidden text-black"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -65,13 +66,13 @@ export default function Navbar() {
 
       {/* Mobile Nav */}
       {isOpen && (
-        <div className="absolute top-full left-0 flex w-full flex-col items-center gap-6 border-b border-white/10 bg-black/95 py-6 text-white backdrop-blur-xl md:hidden">
+        <div className="absolute top-full left-0 flex w-full flex-col items-center gap-6 border-b border-black/10 bg-white/95 py-6 text-black backdrop-blur-xl md:hidden">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="cursor-target text-lg font-medium text-zinc-300 hover:text-white transition-colors tracking-widest uppercase"
+              className="cursor-target text-lg font-medium text-zinc-700 hover:text-black transition-colors tracking-widest uppercase"
             >
               {link.label}
             </a>

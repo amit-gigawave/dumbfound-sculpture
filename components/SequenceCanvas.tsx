@@ -167,7 +167,7 @@ const SequenceCanvas: React.FC = () => {
         {/* Fixed Background (True fixed, visibility managed by GSAP) */}
         <div 
             ref={bgRef}
-            className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none bg-black"
+            className="fixed inset-0 w-full h-full z-0 overflow-hidden pointer-events-none bg-white"
         >
             <canvas 
                 ref={canvasRef} 
@@ -179,14 +179,14 @@ const SequenceCanvas: React.FC = () => {
 
         {/* Loading overlay - only visible during init */}
         {!isLoaded && (
-            <div className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-black transition-opacity duration-700">
+            <div className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-white transition-opacity duration-700">
                 <div className="w-48 h-[2px] bg-white/10 rounded-full overflow-hidden mb-4">
                     <div 
                         className="h-full bg-white transition-all duration-300" 
                         style={{ width: `${progress}%` }}
                     />
                 </div>
-                <p className="text-white/30 text-[9px] uppercase tracking-[0.5em]">
+                <p className="text-black/30 text-[9px] uppercase tracking-[0.5em]">
                     Syncing Atmosphere — {progress}%
                 </p>
             </div>

@@ -102,9 +102,9 @@ export default function PremiumButton({ text = "Explore Work", className = "" }:
             className={`
         relative group overflow-hidden
         px-10 py-5 rounded-full
-        border border-white/20
+        border border-black/20
         bg-transparent transition-colors duration-500
-        hover:border-white
+        hover:border-black
         ${className}
       `}
             style={{ isolation: "isolate" }}
@@ -112,7 +112,7 @@ export default function PremiumButton({ text = "Explore Work", className = "" }:
             {/* Liquid Fill Background */}
             <div
                 ref={fillRef}
-                className="absolute inset-0 w-full h-full bg-white -z-10 -translate-y-[100%]"
+                className="absolute inset-0 w-full h-full bg-black -z-10 -translate-y-[100%]"
                 style={{ borderRadius: "50% 50% 0 0" }}
             />
 
@@ -120,7 +120,7 @@ export default function PremiumButton({ text = "Explore Work", className = "" }:
             <div className="relative overflow-hidden flex flex-col items-center">
                 <span
                     ref={textRef}
-                    className="block text-white group-hover:text-black transition-colors duration-300 uppercase tracking-[0.2em] text-xs font-medium"
+                    className="block text-black group-hover:text-white transition-colors duration-300 uppercase tracking-[0.2em] text-xs font-medium"
                 >
                     {text}
                 </span>
@@ -128,7 +128,7 @@ export default function PremiumButton({ text = "Explore Work", className = "" }:
                 {/* Hidden text for the slide-up effect */}
                 <span
                     ref={textCopyRef}
-                    className="absolute block text-black uppercase tracking-[0.2em] text-xs font-medium translate-y-[150%]"
+                    className="absolute block text-white uppercase tracking-[0.2em] text-xs font-medium translate-y-[150%]"
                 >
                     {text}
                 </span>

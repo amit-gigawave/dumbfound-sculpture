@@ -1,26 +1,35 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
-import BorderGlow from "./BorderGlow";
-
-const GradualBlur = dynamic(() => import("./GradualBlur"), { ssr: false });
-const ScrollFloat = dynamic(() => import("./ScrollFloat"), { ssr: false });
+import { Mail, MapPin, Phone, Facebook, Linkedin, Send, Instagram, Check } from "lucide-react";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    projectType: "",
+    contactNumber: "",
     message: "",
   });
 
-  const contactInfo = [
-    { icon: MapPin, label: "Address", value: "Mumbai, Maharashtra, India" },
-    { icon: Phone, label: "Phone", value: "+91 98765 43210" },
-    { icon: Mail, label: "Email", value: "hello@dumbfound.tech" },
-    { icon: Clock, label: "Hours", value: "Mon - Sat: 9AM - 6PM" },
+  const contactCards = [
+    { icon: Mail, title: "Email", value: "hello@dumbfound.tech", sub: "Get fast responses, usually within 24 hours." },
+    { icon: Phone, title: "Sales & Partnerships", value: "sales@dumbfound.tech", sub: "Let's talk about scaling your brand with us." },
+    { icon: MapPin, title: "Location", value: "Mumbai, Maharashtra, India", sub: "Visit our primary studio by appointment." }
+  ];
+
+  const benefits = [
+    "Personalized assistance",
+    "Timely response",
+    "Comprehensive support",
+    "Priority Support & Resources"
+  ];
+
+  const socials = [
+    { icon: Facebook, label: "Facebook" },
+    { icon: Linkedin, label: "LinkedIn" },
+    { icon: Send, label: "Telegram" },
+    { icon: Instagram, label: "Instagram" },
   ];
 
   const updateField = (field: keyof typeof formData, value: string) => {
@@ -36,169 +45,140 @@ export default function Contact() {
   };
 
   return (
-    <section
-      id="contact"
-      className="relative z-10 overflow-hidden px-6 py-28 lg:px-16"
-    >
-
-
+    <section id="contact" className="relative z-10 overflow-hidden px-6 py-20 lg:px-16 text-foreground">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-14 max-w-4xl">
-          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-white/42">
-            Contact
-          </p>
-          <ScrollFloat
-            containerClassName="text-left"
-            textClassName="font-display block text-4xl font-semibold uppercase tracking-[-0.05em] text-white sm:text-5xl "
-          >
-            Build The Next Landmark
-          </ScrollFloat>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg">
-            The closing section should feel assured, not generic. It keeps the
-            same glass-and-atmosphere language while giving the client a very
-            clear next move.
+        {/* Top Header */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <div className="inline-flex rounded-full border border-black/10 bg-black/5 px-4 py-1.5 mb-6">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/80">
+              Contact
+            </span>
+          </div>
+          <h2 className="font-display text-4xl sm:text-5xl font-medium tracking-tight mb-4 text-black">
+            Let's Talk About Sculpture
+          </h2>
+          <p className="max-w-xl text-sm sm:text-[0.95rem] leading-7 text-black/50">
+            Have a question about Dumbfound, partnership options, or product integration? Our team will get back to you within 24 hours.
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[0.88fr_1.12fr]">
-          <div className="grid gap-4">
-            {contactInfo.map((item) => (
-              <BorderGlow
-                key={item.label}
-                className="cursor-target overflow-hidden border-white/10"
-                backgroundColor="#090312"
-                borderRadius={28}
-                glowRadius={28}
-                edgeSensitivity={58}
-                coneSpread={20}
-                glowIntensity={0.9}
-                colors={["#f4f0e8", "#8ea4ff", "#62d4c8"]}
-                forceHover
-                forceHoverAngle={315}
-                forceHoverProximity={1}
-              >
-                <div className="p-5">
-                  <div className="flex items-start gap-4">
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                      <item.icon className="h-5 w-5 text-white/74" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase tracking-[0.32em] text-white/40">
-                        {item.label}
-                      </div>
-                      <div className="mt-2 text-base text-white/82">
-                        {item.value}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </BorderGlow>
-            ))}
-
-            <BorderGlow
-              className="overflow-hidden border-white/10"
-              backgroundColor="#090312"
-              borderRadius={28}
-              glowRadius={28}
-              edgeSensitivity={58}
-              coneSpread={20}
-              glowIntensity={0.9}
-              colors={["#ffe1f4", "#ff8d76", "#f4f0e8"]}
-              forceHover
-              forceHoverAngle={315}
-              forceHoverProximity={1}
-            >
-              <div className="p-6">
-                <div className="text-[10px] uppercase tracking-[0.34em] text-white/42">
-                  Typical response window
-                </div>
-                <p className="mt-4 text-sm leading-7 text-white/62">
-                  We usually reply within 48 hours with an initial direction,
-                  project questions, and a recommended next step.
-                </p>
+        {/* 3 Cards */}
+        <div className="grid md:grid-cols-3 gap-6 mb-24">
+          {contactCards.map((card, i) => (
+            <div key={i} className="bg-white rounded-2xl p-6 sm:p-8 shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex flex-col items-start text-left">
+              <div className="w-10 h-10 rounded-full border border-black/5 bg-black/5 flex items-center justify-center mb-6">
+                <card.icon className="w-4 h-4 text-black/60" />
               </div>
-            </BorderGlow>
+              <h3 className="font-medium text-black mb-4">{card.title}</h3>
+              <p className="font-semibold text-sm text-black mb-2">{card.value}</p>
+              <p className="text-[0.8rem] text-black/40">{card.sub}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Section */}
+        <div className="grid lg:grid-cols-[1fr_1fr] gap-16 lg:gap-24 items-start">
+          {/* Left Text */}
+          <div className="flex flex-col gap-8">
+            <div>
+              <h3 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] font-medium tracking-tight mb-6 text-black">
+                Reach out anytime<br />we're here for you
+              </h3>
+              <p className="text-sm sm:text-[0.95rem] leading-6 text-black/50 max-w-md">
+                Have a question or need assistance? Reach out to our dedicated support team. We're here to help with any inquiries you may have.
+              </p>
+            </div>
+
+            <ul className="flex flex-col gap-4">
+              {benefits.map((benefit, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <Check className="w-4 h-4 text-black/60" />
+                  <span className="text-sm font-medium text-black/80">{benefit}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex gap-4 mt-4">
+              {socials.map((social, i) => (
+                <button key={i} className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.03)] transition-transform hover:scale-110">
+                  <social.icon className="w-4 h-4 text-black/70" />
+                </button>
+              ))}
+            </div>
           </div>
 
-          <BorderGlow
-            className="overflow-hidden border-white/10"
-            backgroundColor="#090312"
-            borderRadius={38}
-            glowRadius={34}
-            edgeSensitivity={56}
-            coneSpread={22}
-            glowIntensity={1}
-            colors={["#d7f2ff", "#8ea4ff", "#f4f0e8"]}
-            forceHover
-            forceHoverAngle={315}
-            forceHoverProximity={1}
-          >
-            <form
-              onSubmit={handleSubmit}
-              className="p-6 shadow-[0_28px_100px_rgba(0,0,0,0.3)] sm:p-8"
-            >
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div className="sm:col-span-1">
+          {/* Right Form */}
+          <div className="bg-white rounded-[2rem] p-6 sm:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[0.8rem] font-semibold text-black/80">First Name</label>
                   <input
                     type="text"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={(e) => updateField("name", e.target.value)}
-                    className="cursor-target w-full rounded-[1.2rem] border border-white/10 bg-black/18 px-5 py-4 text-white placeholder:text-white/36 focus:border-white/24 focus:outline-none"
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={(e) => updateField("firstName", e.target.value)}
+                    className="w-full rounded-xl border border-black/5 bg-black/[0.02] px-4 py-3 text-sm text-black placeholder:text-black/30 focus:border-black/20 focus:outline-none transition-colors"
                     required
                   />
                 </div>
-                <div className="sm:col-span-1">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[0.8rem] font-semibold text-black/80">Last Name</label>
                   <input
-                    type="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={(e) => updateField("email", e.target.value)}
-                    className="cursor-target w-full rounded-[1.2rem] border border-white/10 bg-black/18 px-5 py-4 text-white placeholder:text-white/36 focus:border-white/24 focus:outline-none"
-                    required
-                  />
-                </div>
-                <div className="sm:col-span-2">
-                  <select
-                    value={formData.projectType}
-                    onChange={(e) => updateField("projectType", e.target.value)}
-                    className="cursor-target w-full rounded-[1.2rem] border border-white/10 bg-black/18 px-5 py-4 text-white focus:border-white/24 focus:outline-none"
-                    required
-                  >
-                    <option value="" disabled>
-                      Project Type
-                    </option>
-                    <option value="residential">Residential</option>
-                    <option value="commercial">Commercial</option>
-                    <option value="public">Public Space</option>
-                    <option value="custom">Custom Commission</option>
-                  </select>
-                </div>
-                <div className="sm:col-span-2">
-                  <textarea
-                    placeholder="Tell us about your project"
-                    value={formData.message}
-                    onChange={(e) => updateField("message", e.target.value)}
-                    rows={7}
-                    className="cursor-target w-full resize-none rounded-[1.4rem] border border-white/10 bg-black/18 px-5 py-4 text-white placeholder:text-white/36 focus:border-white/24 focus:outline-none"
+                    type="text"
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={(e) => updateField("lastName", e.target.value)}
+                    className="w-full rounded-xl border border-black/5 bg-black/[0.02] px-4 py-3 text-sm text-black placeholder:text-black/30 focus:border-black/20 focus:outline-none transition-colors"
                     required
                   />
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-[10px] uppercase tracking-[0.32em] text-white/40">
-                  Share references, dimensions, or site notes if available
-                </p>
-                <button
-                  type="submit"
-                  className="cursor-target inline-flex items-center justify-center rounded-full border border-white/15 bg-white px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-black transition-transform duration-300 hover:-translate-y-0.5"
-                >
-                  Start the Project
-                </button>
+              <div className="flex flex-col gap-2">
+                <label className="text-[0.8rem] font-semibold text-black/80">Email</label>
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  value={formData.email}
+                  onChange={(e) => updateField("email", e.target.value)}
+                  className="w-full rounded-xl border border-black/5 bg-black/[0.02] px-4 py-3 text-sm text-black placeholder:text-black/30 focus:border-black/20 focus:outline-none transition-colors"
+                  required
+                />
               </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-[0.8rem] font-semibold text-black/80">Contact Number</label>
+                <input
+                  type="tel"
+                  placeholder="Contact Number"
+                  value={formData.contactNumber}
+                  onChange={(e) => updateField("contactNumber", e.target.value)}
+                  className="w-full rounded-xl border border-black/5 bg-black/[0.02] px-4 py-3 text-sm text-black placeholder:text-black/30 focus:border-black/20 focus:outline-none transition-colors"
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-[0.8rem] font-semibold text-black/80">Message</label>
+                <textarea
+                  placeholder="Write your message here..."
+                  value={formData.message}
+                  onChange={(e) => updateField("message", e.target.value)}
+                  rows={4}
+                  className="w-full resize-none rounded-xl border border-black/5 bg-black/[0.02] px-4 py-3 text-sm text-black placeholder:text-black/30 focus:border-black/20 focus:outline-none transition-colors"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="mt-2 w-full rounded-xl bg-gradient-to-r from-[#ffd3be] via-[#ffece1] to-[#ffd3be] py-3.5 text-[0.85rem] font-semibold text-[#8b4513] transition-opacity hover:opacity-90 shadow-[0_2px_10px_rgba(255,211,190,0.4)]"
+              >
+                Submit
+              </button>
             </form>
-          </BorderGlow>
+          </div>
         </div>
       </div>
     </section>

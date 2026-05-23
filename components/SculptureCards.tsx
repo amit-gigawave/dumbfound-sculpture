@@ -109,18 +109,18 @@ const SculptureCardItem = ({ card, index }: { card: typeof cards[0]; index: numb
                             className="h-2 w-2 rounded-full"
                             style={{ backgroundColor: card.accent }}
                         />
-                        <span className="text-[10px] uppercase tracking-[0.4em] text-white/30">
+                        <span className="text-[10px] uppercase tracking-[0.4em] text-black/30">
                             Specimen {card.id.toString().padStart(2, '0')}
                         </span>
                     </div>
-                    <h3 className="text-4xl lg:text-7xl font-display uppercase tracking-[-0.03em] text-white">
+                    <h3 className="text-4xl lg:text-7xl font-display uppercase tracking-[-0.03em] text-black">
                         {card.title}
                     </h3>
-                    <p className="max-w-md mx-auto lg:mx-0 text-base lg:text-lg leading-relaxed text-white/50">
+                    <p className="max-w-md mx-auto lg:mx-0 text-base lg:text-lg leading-relaxed text-black/50">
                         {card.description}
                     </p>
                     <div className="pt-4">
-                        <button className="text-[10px] uppercase tracking-[0.3em] text-white/30 hover:text-white transition-colors border-b border-white/10 pb-1">
+                        <button className="text-[10px] uppercase tracking-[0.3em] text-black/30 hover:text-black transition-colors border-b border-black/10 pb-1">
                             Explore Details
                         </button>
                     </div>
@@ -177,7 +177,7 @@ const SculptureCards = () => {
 
             <div className="mx-auto max-w-7xl relative z-10">
                 <div className="mb-24 px-4 text-center">
-                    <p className="text-[10px] uppercase tracking-[0.42em] text-white/42 mb-4">
+                    <p className="text-[10px] uppercase tracking-[0.42em] text-black/40 mb-4">
                         Curated Collection
                     </p>
                     <ScrollFloat
@@ -185,7 +185,7 @@ const SculptureCards = () => {
                         ease="back.inOut(2)"
                         stagger={0.03}
                         containerClassName="text-center"
-                        textClassName="font-display block text-4xl font-semibold uppercase tracking-[-0.05em] text-white sm:text-5xl lg:text-[5.4rem]"
+                        textClassName="font-display block text-4xl font-semibold uppercase tracking-[-0.05em] text-black sm:text-5xl lg:text-[5.4rem]"
                     >
                         Sculptural Masterpieces
                     </ScrollFloat>

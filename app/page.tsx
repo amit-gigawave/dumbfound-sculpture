@@ -6,21 +6,44 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Gallery from "@/components/Gallery";
 import Team from "@/components/Team";
+import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import SculptureCards from "@/components/SculptureCards";
 import GradualBlur from "@/components/GradualBlur";
 import SequenceCanvas from "@/components/SequenceCanvas";
 import Footer from "@/components/Footer";
+import { AnimatePresence, motion } from "motion/react";
+import { renderBold } from "@/lib/renderBold";
+import { useRef, useState } from "react";
+import { siteConfig } from "@/lib/siteConfig";
+import { ScatterBoard } from "./components/scatter-board";
 
 const TargetCursor = dynamic(() => import("@/components/TargetCursor"), {
   ssr: false,
 });
 
+const tabs = siteConfig.sections.map((s) => ({
+  id: s.id,
+  label: s.id
+    .split("-")
+    .map((w) => w[0].toUpperCase() + w.slice(1))
+    .join(" "),
+}));
 
 export default function Home() {
+  const [imgZIndex, setImgZIndex] = useState<number[]>([
+    1, 1, 2, 3, 3, 1, 1, 4, 1, 1, 1,
+  ]);
+  const zCounterRef = useRef(10);
+  const [arrowVisible, setArrowVisible] = useState(false);
+  const onArrowVisible = useRef(() => setArrowVisible(true)).current;
+  const [bursts, setBursts] = useState<{ id: number; x: number; y: number }[]>(
+    [],
+  );
+
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-black font-sans  text-white ">
-      <TargetCursor targetSelector=".cursor-target" />
+    <div className="relative min-h-screen overflow-x-hidden bg-white font-sans text-foreground">
+      {/* <TargetCursor targetSelector=".cursor-target" /> */}
 
       {/* <div className="fixed inset-0 z-0">
         <SceneWrapper />
@@ -31,10 +54,21 @@ export default function Home() {
         <Hero />
         <About />
       </div>
-      <Gallery />
+      {/* <Gallery /> */}
+      <ScatterBoard
+        imgZIndex={imgZIndex}
+        setImgZIndex={setImgZIndex}
+        zCounterRef={zCounterRef}
+        arrowVisible={arrowVisible}
+        setBursts={setBursts}
+        bursts={bursts}
+      />
       <SculptureCards />
       <Team />
-      <Contact />
+      <div className="bg-linear-to-b from-transparent to-background">
+        <FAQ />
+        <Contact />
+      </div>
 
       <Footer />
       <GradualBlur

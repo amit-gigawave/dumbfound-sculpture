@@ -43,16 +43,16 @@ export default function Team() {
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-14 max-w-4xl">
-          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-white/42">
+          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-black/42">
             Studio Team
           </p>
           <ScrollFloat
             containerClassName="text-left"
-            textClassName="font-display block text-4xl font-semibold uppercase tracking-[-0.05em] text-white sm:text-5xl "
+            textClassName="font-display block text-4xl font-semibold uppercase tracking-[-0.05em] text-black sm:text-5xl "
           >
             The People Behind The Weight
           </ScrollFloat>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-8 text-black/62 sm:text-lg">
             Rather than a dramatic pinned sequence, this rebuild treats the team
             as a panel of specialists. It feels more editorial and pairs better
             with the new gallery interaction.
@@ -63,7 +63,7 @@ export default function Team() {
           {team.map((member, index) => (
             <article
               key={member.name}
-              className="cursor-target group relative overflow-hidden rounded-[2.3rem] border border-white/10 bg-white/[0.05] p-7 shadow-[0_28px_90px_rgba(0,0,0,0.28)] backdrop-blur-xl transition-transform duration-300 hover:-translate-y-1"
+              className="cursor-target group relative overflow-hidden rounded-[2.3rem] border border-black/10 bg-white/[0.05] p-7 shadow-[0_28px_90px_rgba(0,0,0,0.28)] backdrop-blur-xl transition-transform duration-300 hover:-translate-y-1"
             >
               <div
                 className="absolute inset-0 opacity-30 transition-opacity duration-300 group-hover:opacity-45"
@@ -75,7 +75,7 @@ export default function Team() {
               <div className="relative z-10">
                 <div className="mb-10 flex items-start justify-between">
                   <div>
-                    <div className="text-[10px] uppercase tracking-[0.34em] text-white/38">
+                    <div className="text-[10px] uppercase tracking-[0.34em] text-black/38">
                       0{index + 1}
                     </div>
                     <p
@@ -85,19 +85,19 @@ export default function Team() {
                       {member.role}
                     </p>
                   </div>
-                  <div className="text-[4.5rem] font-display leading-none text-white/12 sm:text-[6rem]">
+                  <div className="text-[4.5rem] font-display leading-none text-black/12 sm:text-[6rem]">
                     {member.name[0]}
                   </div>
                 </div>
 
-                <h3 className="text-3xl font-display text-white">
+                <h3 className="text-3xl font-display text-black">
                   {member.name}
                 </h3>
-                <p className="mt-4 max-w-xl text-sm leading-7 text-white/64">
+                <p className="mt-4 max-w-xl text-sm leading-7 text-black/64">
                   {member.description}
                 </p>
 
-                <div className="mt-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-white/42">
+                <div className="mt-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-black/42">
                   <span>Studio presence</span>
                   <span
                     className="h-2.5 w-2.5 rounded-full"

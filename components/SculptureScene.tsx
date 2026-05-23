@@ -26,8 +26,8 @@ const Loader = () => {
     return (
         <Html center>
             <div className="flex flex-col items-center justify-center space-y-4 whitespace-nowrap">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-white/60" />
-                <div className="text-[9px] uppercase tracking-[0.4em] font-display text-white/30">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-black/10 border-t-white/60" />
+                <div className="text-[9px] uppercase tracking-[0.4em] font-display text-black/30">
                     Loading {Math.round(progress)}%
                 </div>
             </div>

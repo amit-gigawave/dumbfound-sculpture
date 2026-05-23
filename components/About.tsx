@@ -147,7 +147,7 @@ export default function About() {
       id="about"
       className="relative z-20 overflow-hidden bg-transparent px-6 py-24 text-white lg:px-16"
     >
-      {/* <div className="absolute inset-0 bg-black/50 pointer-events-none" /> */}
+      {/* Background overlay removed to keep SequenceCanvas fully visible */}
       {/* Redundant background effects removed for performance Optimization */}
       {/* <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/8 to-transparent" />
@@ -157,7 +157,7 @@ export default function About() {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="max-w-4xl">
-          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-white/42">
+          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-white/60">
             About The Studio
           </p>
           <ScrollFloat
@@ -166,7 +166,7 @@ export default function About() {
           >
             Precision That Reveals Itself On Scroll
           </ScrollFloat>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/60 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
             Each principle enters only when the page has room for it. The
             section keeps its natural height, and the story unfolds in thirds
             instead of arriving as one crowded slab.
@@ -176,12 +176,12 @@ export default function About() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-[1.35rem] border border-white/8 bg-white/[0.04] p-4 backdrop-blur-md"
+                className="rounded-[1.35rem] border border-white/10 bg-white/5 p-5 backdrop-blur-md shadow-sm transition-all hover:bg-white/10 hover:shadow-md"
               >
                 <div className="font-display text-2xl text-white">
                   {stat.value}
                 </div>
-                <div className="mt-2 text-[10px] uppercase tracking-[0.26em] text-white/38">
+                <div className="mt-2 text-[10px] uppercase tracking-[0.26em] text-white/60">
                   {stat.label}
                 </div>
               </div>
@@ -206,56 +206,57 @@ export default function About() {
                     background: `linear-gradient(90deg, ${pillar.color}, ${pillar.colorTwo})`,
                   }}
                 />
-                <div className="text-[10px] uppercase tracking-[0.42em] text-white/34">
+                <div className="text-[10px] uppercase tracking-[0.42em] text-white/60">
                   {pillar.index}
                 </div>
                 <h3 className="max-w-sm font-display text-4xl uppercase tracking-[-0.05em] text-white sm:text-5xl">
                   {pillar.title}
                 </h3>
-                <p className="max-w-md text-base leading-8 text-white/62 sm:text-lg">
+                <p className="max-w-md text-base leading-8 text-white/80 sm:text-lg">
                   {pillar.copy}
                 </p>
-                <p className="max-w-md text-sm leading-7 text-white/38">
+                <p className="max-w-md text-sm leading-7 text-white/50">
                   {pillar.note}
                 </p>
               </div>
 
-              {/* <div data-about-card>
+              <div data-about-card>
                 <BorderGlow
-                  className="overflow-hidden border-white/12"
+                  className="overflow-hidden border-black/10 shadow-[0_20px_60px_rgba(0,0,0,0.06)]"
                   edgeSensitivity={56}
-                  glowColor="42 88 84"
-                  backgroundColor="#080211"
+                  backgroundColor="#ffffff"
                   borderRadius={30}
                   glowRadius={34}
-                  glowIntensity={1.05}
+                  glowIntensity={0.8}
                   coneSpread={22}
-                  colors={[pillar.color, pillar.colorTwo, "#ffffff"]}
+                  colors={[pillar.color, pillar.colorTwo, "#f0f0f0"]}
                   forceHover
                   forceHoverAngle={315}
                   forceHoverProximity={1}
                 >
-                  <article className="relative p-6 sm:p-7">
+                  <article className="relative p-8 sm:p-10 min-h-[300px] flex flex-col justify-end">
                     <div
-                      className="pointer-events-none absolute inset-0 opacity-55"
+                      className="pointer-events-none absolute inset-0 opacity-70"
                       style={{
-                        background: `radial-gradient(circle at 12% 16%, ${pillar.color}12, transparent 20%), linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08))`,
+                        background: `radial-gradient(circle at 88% 16%, ${pillar.color}80, transparent 50%), linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2))`,
                       }}
                     />
-                    <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-white/[0.035]" />
+                    <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-black/[0.05]" />
 
-                    <div className="relative z-10 flex h-full flex-col">
-
-                      <h4 className="max-w-md font-sans text-[1.45rem] font-semibold tracking-[-0.05em] text-white sm:text-[1.7rem]">
+                    <div className="relative z-10 flex h-full flex-col mt-auto">
+                      <div className="mb-6 inline-flex self-start rounded-full border border-black/10 bg-white/50 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black/70 backdrop-blur-sm">
+                        {pillar.chip}
+                      </div>
+                      <h4 className="max-w-md font-sans text-[1.45rem] font-medium tracking-[-0.03em] text-black sm:text-[1.7rem]">
                         {pillar.title}
                       </h4>
-                      <p className="mt-3 max-w-xl text-[0.98rem] leading-7 text-white/58">
+                      <p className="mt-3 max-w-xl text-[0.98rem] leading-7 text-black/70">
                         {pillar.copy}
                       </p>
                     </div>
                   </article>
                 </BorderGlow>
-              </div> */}
+              </div>
             </article>
           ))}
         </div>
