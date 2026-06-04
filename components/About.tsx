@@ -13,10 +13,8 @@ gsap.registerPlugin(ScrollTrigger);
 const pillars = [
   {
     title: "Material Intelligence",
-    copy:
-      "Stone, metal, and finish decisions are treated as part of the storytelling, not decoration added later.",
-    note:
-      "Material studies, patina logic, and finish direction are mapped before fabrication begins.",
+    copy: "Stone, metal, and finish decisions are treated as part of the storytelling, not decoration added later.",
+    note: "Material studies, patina logic, and finish direction are mapped before fabrication begins.",
     index: "01",
     color: "#f4f0e8",
     colorTwo: "#8ea4ff",
@@ -24,10 +22,8 @@ const pillars = [
   },
   {
     title: "Spatial Discipline",
-    copy:
-      "Every form is designed to hold its silhouette from distance, approach, and peripheral movement.",
-    note:
-      "The piece has to read from across a plaza and still reward the close-up encounter.",
+    copy: "Every form is designed to hold its silhouette from distance, approach, and peripheral movement.",
+    note: "The piece has to read from across a plaza and still reward the close-up encounter.",
     index: "02",
     color: "#d7f2ff",
     colorTwo: "#62d4c8",
@@ -35,10 +31,8 @@ const pillars = [
   },
   {
     title: "Site Response",
-    copy:
-      "Installations are shaped to work with weather, foot traffic, architecture, and light behavior.",
-    note:
-      "Scale, shadow, and circulation paths are choreographed like part of the sculpture itself.",
+    copy: "Installations are shaped to work with weather, foot traffic, architecture, and light behavior.",
+    note: "Scale, shadow, and circulation paths are choreographed like part of the sculpture itself.",
     index: "03",
     color: "#ffe1f4",
     colorTwo: "#ff8d76",
@@ -145,7 +139,7 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-20 overflow-hidden bg-transparent px-6 py-24 text-white lg:px-16"
+      className="relative z-20 overflow-hidden bg-transparent px-6 py-24 text-black lg:px-16"
     >
       {/* Background overlay removed to keep SequenceCanvas fully visible */}
       {/* Redundant background effects removed for performance Optimization */}
@@ -155,33 +149,33 @@ export default function About() {
         <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-[#ff8d76]/10 blur-3xl" />
       </div> */}
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl flex flex-col items-center justify-center">
         <div className="max-w-4xl">
-          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-white/60">
+          <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-black/60">
             About The Studio
           </p>
           <ScrollFloat
             containerClassName="text-left"
-            textClassName="font-display block text-4xl font-semibold uppercase tracking-[-0.05em] text-white sm:text-5xl "
+            textClassName="font-display block text-4xl font-medium tracking-[-0.03em] text-black sm:text-5xl lg:text-[3.5rem] leading-[1.1]"
           >
             Precision That Reveals Itself On Scroll
           </ScrollFloat>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-8 text-black/80 sm:text-lg text-center mx-auto">
             Each principle enters only when the page has room for it. The
             section keeps its natural height, and the story unfolds in thirds
             instead of arriving as one crowded slab.
           </p>
 
-          <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3">
+          <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3 mx-auto">
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-[1.35rem] border border-white/10 bg-white/5 p-5 backdrop-blur-md shadow-sm transition-all hover:bg-white/10 hover:shadow-md"
+                className="rounded-[1.35rem] border border-white/60 bg-white/40 p-6 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:bg-white/60 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
               >
-                <div className="font-display text-2xl text-white">
+                <div className="font-display text-3xl text-black">
                   {stat.value}
                 </div>
-                <div className="mt-2 text-[10px] uppercase tracking-[0.26em] text-white/60">
+                <div className="mt-2 text-[10px] uppercase tracking-[0.26em] text-black/60">
                   {stat.label}
                 </div>
               </div>
@@ -189,7 +183,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="mt-24 space-y-28 lg:space-y-36">
+        {/* <div className="mt-24 space-y-28 lg:space-y-36">
           {pillars.map((pillar, index) => (
             <article
               key={pillar.title}
@@ -206,28 +200,28 @@ export default function About() {
                     background: `linear-gradient(90deg, ${pillar.color}, ${pillar.colorTwo})`,
                   }}
                 />
-                <div className="text-[10px] uppercase tracking-[0.42em] text-white/60">
+                <div className="text-[10px] uppercase tracking-[0.42em] text-black/60">
                   {pillar.index}
                 </div>
-                <h3 className="max-w-sm font-display text-4xl uppercase tracking-[-0.05em] text-white sm:text-5xl">
+                <h3 className="max-w-sm font-display text-4xl lg:text-[3.5rem] leading-[1.1] tracking-[-0.02em] text-black">
                   {pillar.title}
                 </h3>
-                <p className="max-w-md text-base leading-8 text-white/80 sm:text-lg">
+                <p className="max-w-md text-base leading-8 text-black/70 sm:text-[1.05rem]">
                   {pillar.copy}
                 </p>
-                <p className="max-w-md text-sm leading-7 text-white/50">
+                <p className="max-w-md text-sm leading-7 text-black/50">
                   {pillar.note}
                 </p>
               </div>
 
               <div data-about-card>
                 <BorderGlow
-                  className="overflow-hidden border-black/10 shadow-[0_20px_60px_rgba(0,0,0,0.06)]"
+                  className="overflow-hidden border-white/40 backdrop-blur-xl"
                   edgeSensitivity={56}
-                  backgroundColor="#ffffff"
+                  backgroundColor="rgba(255, 255, 255, 0.6)"
                   borderRadius={30}
                   glowRadius={34}
-                  glowIntensity={0.8}
+                  glowIntensity={0.5}
                   coneSpread={22}
                   colors={[pillar.color, pillar.colorTwo, "#f0f0f0"]}
                   forceHover
@@ -259,7 +253,7 @@ export default function About() {
               </div>
             </article>
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );

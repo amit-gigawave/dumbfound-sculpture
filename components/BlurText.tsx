@@ -90,7 +90,7 @@ const BlurText: React.FC<BlurTextProps> = ({
     const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
 
     return (
-        <p ref={ref} className={`blur-text ${className} flex flex-wrap`}>
+        <span ref={ref} className={`blur-text ${className} inline`}>
             {elements.map((segment, index) => {
                 const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
@@ -118,7 +118,7 @@ const BlurText: React.FC<BlurTextProps> = ({
                     </motion.span>
                 );
             })}
-        </p>
+        </span>
     );
 };
 

@@ -13,6 +13,10 @@ import {
     useProgress
 } from '@react-three/drei';
 import * as THREE from 'three';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SculptureSceneProps {
     url: string;
@@ -35,9 +39,10 @@ const Loader = () => {
     );
 };
 
-const SingleModel: FC<{ url: string; offsetX: number; offsetY: number }> = ({ url, offsetX, offsetY }) => {
+const SingleModel: FC<{ url: string; offsetX: number; offsetY: number; scrollContainerRef: React.RefObject<HTMLDivElement | null> }> = ({ url, offsetX, offsetY, scrollContainerRef }) => {
     const { scene } = useGLTF(url);
     const { invalidate } = useThree();
+    const groupRef = useRef<THREE.Group>(null);
 
     // Create a local clone of the scene so we don't mutate the global cache
     const clonedScene = useMemo(() => scene.clone(), [scene]);
@@ -57,11 +62,30 @@ const SingleModel: FC<{ url: string; offsetX: number; offsetY: number }> = ({ ur
     }, [clonedScene, invalidate]);
 
     useEffect(() => {
-        invalidate();
-    }, [clonedScene, invalidate]);
+        if (!scrollContainerRef.current || !groupRef.current) return;
+        
+        const ctx = gsap.context(() => {
+            gsap.fromTo(groupRef.current!.rotation,
+                { y: 0 },
+                {
+                    y: Math.PI * 2,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: scrollContainerRef.current,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true,
+                    },
+                    onUpdate: () => invalidate()
+                }
+            );
+        });
+
+        return () => ctx.revert();
+    }, [scrollContainerRef, invalidate]);
 
     return (
-        <group position={[offsetX, offsetY, 0]}>
+        <group ref={groupRef} position={[offsetX, offsetY, 0]}>
             <primitive
                 object={clonedScene}
                 castShadow
@@ -77,12 +101,13 @@ const SculptureScene: FC<SculptureSceneProps> = ({
     offsetY = 0,
     defaultZoom = 1
 }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
     // With 1-unit normalized models, a distance of 4-5 provides a good "Gallery View"
     // that never clips. We use 4.0 as our baseline zoom-1 distance.
     const camZ = 4.0 / (defaultZoom <= 0 ? 1 : defaultZoom);
 
     return (
-        <div className="w-full cursor-target! h-full relative cursor-grab active:cursor-grabbing group/sculpture bg-transparent">
+        <div ref={containerRef} className="w-full cursor-target! h-full relative cursor-grab active:cursor-grabbing group/sculpture bg-transparent">
             {/* Ambient Background Hint */}
             {/* <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent pointer-events-none rounded-3xl" /> */}
 
@@ -107,15 +132,14 @@ const SculptureScene: FC<SculptureSceneProps> = ({
                             rotationIntensity={0.6}
                             floatIntensity={0.5}
                         >
-                            <SingleModel url={url} offsetX={offsetX} offsetY={offsetY} />
+                            <SingleModel url={url} offsetX={offsetX} offsetY={offsetY} scrollContainerRef={containerRef} />
                         </Float>
                     </Stage>
 
                     <OrbitControls
                         enableZoom={false}
                         enablePan={false}
-                        autoRotate={true}
-                        autoRotateSpeed={0.4}
+                        autoRotate={false}
                         maxPolarAngle={Math.PI / 1.6}
                         minPolarAngle={Math.PI / 3}
                     />

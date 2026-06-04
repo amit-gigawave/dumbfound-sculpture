@@ -38,7 +38,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="footer-section bg-background">
+    <footer className="footer-section ">
       <div className="footer-wrapper">
         <div className="footer-left">
           <video

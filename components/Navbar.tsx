@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import clsx from "clsx";
-import GooeyNav from "./GooeyNav";
+import MobileMenu from "./MobileMenu";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,61 +24,62 @@ export default function Navbar() {
   ];
 
   return (
-    <nav
-      className={clsx(
-        "fixed top-0 w-full z-50 px-6 py-2 transition-all duration-300 ",
-        isScrolled
-          ? "  shadow-sm bg-black/50 backdrop-blur-md"
-          : "bg-transparent",
-      )}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between">
-        <a
-          href="#home"
-          className="cursor-target text-2xl font-bold tracking-tighter transition-colors text-background"
-        >
-          DUMBFOUND
-        </a>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:block">
-          <GooeyNav
-            items={navLinks}
-            particleCount={42}
-            particleDistances={[90, 10]}
-            particleR={100}
-            initialActiveIndex={0}
-            animationTime={400}
-            timeVariance={600}
-            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
-            isScrolled={isScrolled}
-          />
+    <>
+      <nav className="navbar fixed top-0 left-0 w-full z-50 pt-2! pointer-events-none">
+        {/* Make the nav container pointer-events-none so it doesn't block clicks, but re-enable on children */}
+        <div className="logo-container pointer-events-auto">
+          <div className="logo-placeholder">
+            <div className="logo-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="8" cy="8" r="4" fill="white" fillOpacity="0.8" />
+                <circle cx="16" cy="8" r="4" fill="white" fillOpacity="0.8" />
+                <circle cx="8" cy="16" r="4" fill="white" fillOpacity="0.8" />
+                <circle cx="16" cy="16" r="4" fill="white" fillOpacity="0.8" />
+              </svg>
+            </div>
+            <span className="brand-name">
+              <a href="#home">Dumbfound</a>
+            </span>
+          </div>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Desktop Navigation */}
+        <div className="nav-main glass pill hidden md:flex pointer-events-auto ">
+          <div className="nav-links">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="nav-link text-black!"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          {/* <button className="login-btn pill">Login</button> */}
+        </div>
+
+        {/* Mobile Navigation Trigger */}
         <button
-          className="cursor-target transition-colors md:hidden text-black"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(true)}
+          className="md:hidden pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-white/10 border border-white/10 backdrop-blur-md text-white transition-colors hover:bg-white/20"
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          <Menu size={22} />
         </button>
-      </div>
+      </nav>
 
-      {/* Mobile Nav */}
-      {isOpen && (
-        <div className="absolute top-full left-0 flex w-full flex-col items-center gap-6 border-b border-black/10 bg-white/95 py-6 text-black backdrop-blur-xl md:hidden">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="cursor-target text-lg font-medium text-zinc-700 hover:text-black transition-colors tracking-widest uppercase"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      )}
-    </nav>
+      {/* Mobile Drawer Menu */}
+      <MobileMenu
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        navLinks={navLinks}
+      />
+    </>
   );
 }

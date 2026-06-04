@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Geist, DM_Sans, Caveat, Lora } from "next/font/google";
+import {
+  Inter,
+  Playfair_Display,
+  Geist,
+  DM_Sans,
+  Caveat,
+  Lora,
+} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import { cn } from "@/lib/utils";
+// import Navbar from "./vertex/Navbar";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -48,7 +56,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body className={`${lora.variable} ${inter.variable} ${playfair.variable} antialiased`}>
+      <body
+        className={`${lora.variable} ${inter.variable} ${playfair.variable} antialiased`}
+      >
         <SmoothScroll>
           <Navbar />
           {children}
