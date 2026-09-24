@@ -11,7 +11,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import { cn } from "@/lib/utils";
-// import Navbar from "./vertex/Navbar";
+
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -30,7 +30,6 @@ const lora = Lora({
   subsets: ["latin"],
 });
 
-// Added for the Footer
 export const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],

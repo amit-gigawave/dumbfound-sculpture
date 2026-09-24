@@ -1,44 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import BorderGlow from "./BorderGlow";
 
 const ScrollFloat = dynamic(() => import("./ScrollFloat"), { ssr: false });
-
-gsap.registerPlugin(ScrollTrigger);
-
-const pillars = [
-  {
-    title: "Material Intelligence",
-    copy: "Stone, metal, and finish decisions are treated as part of the storytelling, not decoration added later.",
-    note: "Material studies, patina logic, and finish direction are mapped before fabrication begins.",
-    index: "01",
-    color: "#f4f0e8",
-    colorTwo: "#8ea4ff",
-    chip: "Finish logic",
-  },
-  {
-    title: "Spatial Discipline",
-    copy: "Every form is designed to hold its silhouette from distance, approach, and peripheral movement.",
-    note: "The piece has to read from across a plaza and still reward the close-up encounter.",
-    index: "02",
-    color: "#d7f2ff",
-    colorTwo: "#62d4c8",
-    chip: "Silhouette check",
-  },
-  {
-    title: "Site Response",
-    copy: "Installations are shaped to work with weather, foot traffic, architecture, and light behavior.",
-    note: "Scale, shadow, and circulation paths are choreographed like part of the sculpture itself.",
-    index: "03",
-    color: "#ffe1f4",
-    colorTwo: "#ff8d76",
-    chip: "Context mapping",
-  },
-];
 
 const stats = [
   { value: "150+", label: "Sculptures installed" },
@@ -47,108 +11,11 @@ const stats = [
 ];
 
 export default function About() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const blockRefs = useRef<Array<HTMLElement | null>>([]);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      blockRefs.current.forEach((block, index) => {
-        if (!block) return;
-
-        const text = block.querySelector("[data-about-text]");
-        const card = block.querySelector("[data-about-card]");
-        const marker = block.querySelector("[data-about-marker]");
-
-        gsap.set([text, card], {
-          opacity: 0,
-          y: 72,
-        });
-
-        gsap.set(card, {
-          scale: 0.96,
-        });
-
-        gsap.set(marker, {
-          opacity: 0.35,
-          scaleX: 0.45,
-          transformOrigin: "left center",
-        });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: block,
-            start: "top 72%",
-            end: "bottom 42%",
-            scrub: 1.1,
-          },
-        });
-
-        tl.to(
-          text,
-          {
-            opacity: 1,
-            y: 0,
-            ease: "power2.out",
-            duration: 0.9,
-          },
-          0,
-        )
-          .to(
-            card,
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: "power2.out",
-              duration: 1,
-            },
-            0.08,
-          )
-          .to(
-            marker,
-            {
-              opacity: 1,
-              scaleX: 1,
-              ease: "power2.out",
-              duration: 0.8,
-            },
-            0,
-          );
-
-        if (index < blockRefs.current.length - 1) {
-          gsap.to(block, {
-            opacity: 0.38,
-            ease: "none",
-            scrollTrigger: {
-              trigger: block,
-              start: "bottom 38%",
-              end: "bottom 12%",
-              scrub: true,
-            },
-          });
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       id="about"
       className="relative z-20 overflow-hidden bg-transparent px-6 py-24 text-black lg:px-16"
     >
-      {/* Background overlay removed to keep SequenceCanvas fully visible */}
-      {/* Redundant background effects removed for performance Optimization */}
-      {/* <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/8 to-transparent" />
-        <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#8ea4ff]/14 blur-3xl" />
-        <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-[#ff8d76]/10 blur-3xl" />
-      </div> */}
-
       <div className="relative mx-auto max-w-7xl flex flex-col items-center justify-center">
         <div className="max-w-4xl">
           <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-black/60">
@@ -182,78 +49,6 @@ export default function About() {
             ))}
           </div>
         </div>
-
-        {/* <div className="mt-24 space-y-28 lg:space-y-36">
-          {pillars.map((pillar, index) => (
-            <article
-              key={pillar.title}
-              ref={(node) => {
-                blockRefs.current[index] = node;
-              }}
-              className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center"
-            >
-              <div data-about-text className="space-y-6">
-                <div
-                  data-about-marker
-                  className="h-px w-20"
-                  style={{
-                    background: `linear-gradient(90deg, ${pillar.color}, ${pillar.colorTwo})`,
-                  }}
-                />
-                <div className="text-[10px] uppercase tracking-[0.42em] text-black/60">
-                  {pillar.index}
-                </div>
-                <h3 className="max-w-sm font-display text-4xl lg:text-[3.5rem] leading-[1.1] tracking-[-0.02em] text-black">
-                  {pillar.title}
-                </h3>
-                <p className="max-w-md text-base leading-8 text-black/70 sm:text-[1.05rem]">
-                  {pillar.copy}
-                </p>
-                <p className="max-w-md text-sm leading-7 text-black/50">
-                  {pillar.note}
-                </p>
-              </div>
-
-              <div data-about-card>
-                <BorderGlow
-                  className="overflow-hidden border-white/40 backdrop-blur-xl"
-                  edgeSensitivity={56}
-                  backgroundColor="rgba(255, 255, 255, 0.6)"
-                  borderRadius={30}
-                  glowRadius={34}
-                  glowIntensity={0.5}
-                  coneSpread={22}
-                  colors={[pillar.color, pillar.colorTwo, "#f0f0f0"]}
-                  forceHover
-                  forceHoverAngle={315}
-                  forceHoverProximity={1}
-                >
-                  <article className="relative p-8 sm:p-10 min-h-[300px] flex flex-col justify-end">
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-70"
-                      style={{
-                        background: `radial-gradient(circle at 88% 16%, ${pillar.color}80, transparent 50%), linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2))`,
-                      }}
-                    />
-                    <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-black/[0.05]" />
-
-                    <div className="relative z-10 flex h-full flex-col mt-auto">
-                      <div className="mb-6 inline-flex self-start rounded-full border border-black/10 bg-white/50 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black/70 backdrop-blur-sm">
-                        {pillar.chip}
-                      </div>
-                      <h4 className="max-w-md font-sans text-[1.45rem] font-medium tracking-[-0.03em] text-black sm:text-[1.7rem]">
-                        {pillar.title}
-                      </h4>
-                      <p className="mt-3 max-w-xl text-[0.98rem] leading-7 text-black/70">
-                        {pillar.copy}
-                      </p>
-                    </div>
-                  </article>
-                </BorderGlow>
-              </div>
-            </article>
-          ))}
-        </div> */}
       </div>
     </section>
   );

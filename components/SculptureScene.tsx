@@ -44,13 +44,13 @@ const SingleModel: FC<{ url: string; offsetX: number; offsetY: number; scrollCon
     const { invalidate } = useThree();
     const groupRef = useRef<THREE.Group>(null);
 
-    // Create a local clone of the scene so we don't mutate the global cache
+
     const clonedScene = useMemo(() => scene.clone(), [scene]);
 
     useLayoutEffect(() => {
         if (!clonedScene) return;
 
-        // Normalize the model to a 1-unit sphere
+
         const box = new THREE.Box3().setFromObject(clonedScene);
         const sphere = box.getBoundingSphere(new THREE.Sphere());
         const scale = 1 / (sphere.radius * 2 || 1);
@@ -102,14 +102,11 @@ const SculptureScene: FC<SculptureSceneProps> = ({
     defaultZoom = 1
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
-    // With 1-unit normalized models, a distance of 4-5 provides a good "Gallery View"
-    // that never clips. We use 4.0 as our baseline zoom-1 distance.
+
     const camZ = 4.0 / (defaultZoom <= 0 ? 1 : defaultZoom);
 
     return (
         <div ref={containerRef} className="w-full cursor-target! h-full relative cursor-grab active:cursor-grabbing group/sculpture bg-transparent">
-            {/* Ambient Background Hint */}
-            {/* <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent pointer-events-none rounded-3xl" /> */}
 
             <Canvas
                 shadows

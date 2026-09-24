@@ -5,13 +5,9 @@ import {
   Mail,
   MapPin,
   Phone,
-  Facebook,
-  Linkedin,
-  Send,
-  Instagram,
   Check,
 } from "lucide-react";
-import RippleGrid from "./RippleGrid";
+
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -50,12 +46,7 @@ export default function Contact() {
     "Priority Support & Resources",
   ];
 
-  const socials = [
-    { icon: Facebook, label: "Facebook" },
-    { icon: Linkedin, label: "LinkedIn" },
-    { icon: Send, label: "Telegram" },
-    { icon: Instagram, label: "Instagram" },
-  ];
+
 
   const updateField = (field: keyof typeof formData, value: string) => {
     setFormData((current) => ({
@@ -114,22 +105,7 @@ export default function Contact() {
         <div className="grid lg:grid-cols-[1fr_1fr] gap-16 lg:gap-24 items-start relative">
           {/* Left Text with Background */}
           <div className="relative flex flex-col gap-8">
-            {/* <div className="absolute inset-0 -z-10 -mx-8 -my-8 px-8 py-8 pointer-events-auto">
-              <RippleGrid
-                enableRainbow={false}
-                gridColor="#545454"
-                rippleIntensity={0.05}
-                gridSize={10}
-                gridThickness={15}
-                fadeDistance={1.5}
-                vignetteStrength={2}
-                glowIntensity={0.1}
-                opacity={1}
-                gridRotation={0}
-                mouseInteraction
-                mouseInteractionRadius={0.8}
-              />
-            </div> */}
+
             <div className="relative z-10 pointer-events-none [&_button]:pointer-events-auto">
               <div>
                 <h3 className="font-display text-3xl sm:text-[2.5rem] leading-[1.1] font-medium tracking-tight mb-6 text-black">
@@ -155,16 +131,7 @@ export default function Contact() {
                 ))}
               </ul>
 
-              {/* <div className="flex gap-4 mt-4 pointer-events-auto">
-                {socials.map((social, i) => (
-                  <button
-                    key={i}
-                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.03)] transition-transform hover:scale-110"
-                  >
-                    <social.icon className="w-4 h-4 text-black/70" />
-                  </button>
-                ))}
-              </div> */}
+
             </div>
           </div>
 

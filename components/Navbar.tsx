@@ -26,7 +26,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="navbar fixed top-0 left-0 w-full z-50 pt-2! pointer-events-none">
-        {/* Make the nav container pointer-events-none so it doesn't block clicks, but re-enable on children */}
+
         <div className="logo-container pointer-events-auto">
           <div className="logo-placeholder">
             <div className="logo-icon">
@@ -49,7 +49,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Desktop Navigation */}
+
         <div className="nav-main glass pill hidden md:flex pointer-events-auto ">
           <div className="nav-links">
             {navLinks.map((link) => (
@@ -62,10 +62,10 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-          {/* <button className="login-btn pill">Login</button> */}
+
         </div>
 
-        {/* Mobile Navigation Trigger */}
+
         <button
           onClick={() => setIsOpen(true)}
           className="md:hidden pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-white/10 border border-white/10 backdrop-blur-md text-white transition-colors hover:bg-white/20"
@@ -74,7 +74,7 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile Drawer Menu */}
+
       <MobileMenu
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

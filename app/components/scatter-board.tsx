@@ -13,7 +13,7 @@ import {
 import { ClickBurst } from "./click-burst";
 import ScrollFloat from "@/components/ScrollFloat";
 
-/* ── Board images data ── */
+
 const BOARD_IMAGES = [
   {
     src: "/sequence/ezgif-frame-001.jpg",
@@ -138,7 +138,7 @@ const BOARD_IMAGES = [
   },
 ];
 
-/* ── ScatterImage — scroll-driven fly-in ── */
+
 function ScatterImage({
   img,
   index,
@@ -308,7 +308,7 @@ function ScatterImage({
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
         draggable={false}
       />
-      {/* Cursor tooltip — portaled to body to escape parent transforms */}
+
       {typeof document !== "undefined" &&
         createPortal(
           <AnimatePresence>
@@ -336,7 +336,7 @@ function ScatterImage({
   );
 }
 
-/* ── ScatterBoard — scroll-tracked wrapper ── */
+
 export function ScatterBoard({
   imgZIndex,
   setImgZIndex,
@@ -413,7 +413,7 @@ export function ScatterBoard({
                 boxShadow: "inset 0 2px 6px rgba(0,0,0,0.06)",
               }}
             >
-              {/* Paper texture noise */}
+
               <div
                 className="absolute inset-0 pointer-events-none opacity-[0.15]"
                 style={{
@@ -421,7 +421,7 @@ export function ScatterBoard({
                   backgroundSize: "200px 200px",
                 }}
               />
-              {/* Dots pattern */}
+
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -429,7 +429,7 @@ export function ScatterBoard({
                   backgroundSize: "24px 24px",
                 }}
               />
-              {/* Coordinates */}
+
               <div className="absolute top-0 left-0 bottom-0 w-[24px] flex flex-col pointer-events-none select-none">
                 {"47.6062°N 122.3321°W".split("").map((ch, i) => (
                   <span
@@ -441,7 +441,7 @@ export function ScatterBoard({
                   </span>
                 ))}
               </div>
-              {/* Scaled inner wrapper for mobile */}
+
               <div
                 className="absolute inset-0"
                 style={
@@ -455,7 +455,6 @@ export function ScatterBoard({
                     : undefined
                 }
               >
-                {/* Showcase images — scatter animation */}
                 {BOARD_IMAGES.map((img, i) =>
                   isMobile ? (
                     <motion.img
@@ -506,7 +505,7 @@ export function ScatterBoard({
                   ),
                 )}
               </div>
-              {/* Click burst particles */}
+
               {bursts.map((b) => (
                 <ClickBurst
                   key={b.id}
